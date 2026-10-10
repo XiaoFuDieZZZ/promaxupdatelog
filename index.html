@@ -97,10 +97,6 @@
   .txt .stat { color: #f0a95e; }
   .txt .arrow { color: #ff7b72; font-weight: 700; letter-spacing: -.5px; }
   hr.divider { border: 0; border-top: 1px dashed var(--line); margin: 14px 0; }
-  .mark {
-    display: inline; background: rgba(92,200,255,.25);
-    border-radius: 3px;
-  }
   @media (max-width: 820px) {
     body { font-size: 14px; -webkit-text-size-adjust: 100%; }
     .layout { display: block; }
@@ -120,9 +116,7 @@
       border-radius: 9px; color: var(--text);
       font-size: 14px; font-family: inherit; cursor: pointer;
     }
-    .toc-toggle .arrow {
-      transition: transform .2s; color: var(--accent); font-size: 12px;
-    }
+    .toc-toggle .arrow { transition: transform .2s; color: var(--accent); font-size: 12px; }
     .toc-toggle.open .arrow { transform: rotate(180deg); }
     .toc-panel { display: none; }
     .toc-panel.open { display: block; padding: 8px 10px 12px; box-shadow: 0 14px 24px rgba(0,0,0,.45); }
@@ -149,102 +143,102 @@
     <div class="toc-panel" id="tocPanel">
       <input class="search" id="search" type="text" placeholder="搜索版本 / 关键词...">
       <div id="toc-list">
-<a class="toc-link" href="#sec-1" data-idx="1">小更新</a>
-<a class="toc-link" href="#sec-2" data-idx="2">《中秋节特别更新v2 &gt;&gt;&gt; 联网功能》</a>
-<a class="toc-link" href="#sec-3" data-idx="3">《正式版 1.35  完结版》</a>
-<a class="toc-link" href="#sec-4" data-idx="4">《正式版 1.34-Fix-65》</a>
-<a class="toc-link" href="#sec-5" data-idx="5">《正式版 1.34-Fix-64》</a>
-<a class="toc-link" href="#sec-6" data-idx="6">《正式版 1.34-Fix-63》</a>
-<a class="toc-link" href="#sec-7" data-idx="7">《正式版 1.34-Fix-61~62》</a>
-<a class="toc-link" href="#sec-8" data-idx="8">《正式版 1.34-Fix-60》</a>
-<a class="toc-link" href="#sec-9" data-idx="9">《正式版 1.34-Fix-59》</a>
-<a class="toc-link" href="#sec-10" data-idx="10">《正式版 1.34-Fix-58》</a>
-<a class="toc-link" href="#sec-11" data-idx="11">《正式版 1.34-Fix-57》</a>
-<a class="toc-link" href="#sec-12" data-idx="12">《正式版 1.34-Fix-56》</a>
-<a class="toc-link" href="#sec-13" data-idx="13">《正式版 1.34-Fix-55》</a>
-<a class="toc-link" href="#sec-14" data-idx="14">《正式版 1.34-Fix-54》</a>
-<a class="toc-link" href="#sec-15" data-idx="15">《正式版 1.34-Fix-53》</a>
-<a class="toc-link" href="#sec-16" data-idx="16">《正式版 1.34-Fix-52》</a>
-<a class="toc-link" href="#sec-17" data-idx="17">《正式版 1.34-Fix-51》</a>
-<a class="toc-link" href="#sec-18" data-idx="18">《正式版 1.34-Fix-50》</a>
-<a class="toc-link" href="#sec-19" data-idx="19">《正式版 1.34-Fix-49》</a>
-<a class="toc-link" href="#sec-20" data-idx="20">《正式版 1.34-Fix-48》</a>
-<a class="toc-link" href="#sec-21" data-idx="21">《正式版 1.34-Fix-47》</a>
-<a class="toc-link" href="#sec-22" data-idx="22">《正式版 1.34-Fix-46》</a>
-<a class="toc-link" href="#sec-23" data-idx="23">《正式版 1.34-Fix-45》</a>
-<a class="toc-link" href="#sec-24" data-idx="24">《正式版 1.34-Fix-44》</a>
-<a class="toc-link" href="#sec-25" data-idx="25">《正式版 1.34-Fix-43》</a>
-<a class="toc-link" href="#sec-26" data-idx="26">《正式版 1.34-Fix-42》</a>
-<a class="toc-link" href="#sec-27" data-idx="27">《正式版 1.34-Fix-41》</a>
-<a class="toc-link" href="#sec-28" data-idx="28">《测试版 1.34-Fix-40》</a>
-<a class="toc-link" href="#sec-29" data-idx="29">《测试版 1.34-Fix-39》</a>
-<a class="toc-link" href="#sec-30" data-idx="30">《测试版 1.34-Fix-38》</a>
-<a class="toc-link" href="#sec-31" data-idx="31">《测试版 1.34-Fix-37》</a>
-<a class="toc-link" href="#sec-32" data-idx="32">《测试版 1.34-Fix-36》</a>
-<a class="toc-link" href="#sec-33" data-idx="33">《测试版 1.34-Fix-35》</a>
-<a class="toc-link" href="#sec-34" data-idx="34">《测试版 1.34-Fix-34》</a>
-<a class="toc-link" href="#sec-35" data-idx="35">《测试版 1.34-Fix-33》</a>
-<a class="toc-link" href="#sec-36" data-idx="36">《测试版 1.34-Fix-32》</a>
-<a class="toc-link" href="#sec-37" data-idx="37">《测试版 1.34-Fix-31》</a>
-<a class="toc-link" href="#sec-38" data-idx="38">《测试版 1.34-Fix-30》</a>
-<a class="toc-link" href="#sec-39" data-idx="39">《测试版 1.34-Fix-29》</a>
-<a class="toc-link" href="#sec-40" data-idx="40">《测试版 1.34-Fix-28》</a>
-<a class="toc-link" href="#sec-41" data-idx="41">《测试版 1.34-Fix-27》</a>
-<a class="toc-link" href="#sec-42" data-idx="42">《测试版 1.34-Fix-26》</a>
-<a class="toc-link" href="#sec-43" data-idx="43">《测试版 1.34-Fix-25》</a>
-<a class="toc-link" href="#sec-44" data-idx="44">《测试版 1.34-Fix-24》</a>
-<a class="toc-link" href="#sec-45" data-idx="45">《测试版 1.34-Fix-23》</a>
-<a class="toc-link" href="#sec-46" data-idx="46">《测试版 1.34-Fix-22》</a>
-<a class="toc-link" href="#sec-47" data-idx="47">《测试版 1.34-Fix-21》</a>
-<a class="toc-link" href="#sec-48" data-idx="48">《测试版 1.34-Fix-20》</a>
-<a class="toc-link" href="#sec-49" data-idx="49">《测试版 1.34-Fix-19》</a>
-<a class="toc-link" href="#sec-50" data-idx="50">《测试版 1.34-Fix-18》</a>
-<a class="toc-link" href="#sec-51" data-idx="51">《测试版 1.34-Fix-17》</a>
-<a class="toc-link" href="#sec-52" data-idx="52">《测试版 1.34-Fix-16》</a>
-<a class="toc-link" href="#sec-53" data-idx="53">《测试版 1.34-Fix-15》</a>
-<a class="toc-link" href="#sec-54" data-idx="54">《测试版 1.34-Fix-14》</a>
-<a class="toc-link" href="#sec-55" data-idx="55">《测试版 1.34-Fix-10》</a>
-<a class="toc-link" href="#sec-56" data-idx="56">《测试版 1.34-Fix-09》</a>
-<a class="toc-link" href="#sec-57" data-idx="57">《测试版 1.34-Fix-08》</a>
-<a class="toc-link" href="#sec-58" data-idx="58">《测试版 1.34-Fix-07》</a>
-<a class="toc-link" href="#sec-59" data-idx="59">《测试版 1.34-Fix-06》</a>
-<a class="toc-link" href="#sec-60" data-idx="60">《测试版 1.34-Fix-05》</a>
-<a class="toc-link" href="#sec-61" data-idx="61">《测试版 1.34-Fix-04》</a>
-<a class="toc-link" href="#sec-62" data-idx="62">《测试版 1.34-Fix-03》</a>
-<a class="toc-link" href="#sec-63" data-idx="63">《测试版 1.34-Fix-02》</a>
-<a class="toc-link" href="#sec-64" data-idx="64">《测试版 1.34-Fix-01》</a>
-<a class="toc-link" href="#sec-65" data-idx="65">《测试版 1.34》</a>
-<a class="toc-link" href="#sec-66" data-idx="66">《测试版 1.33》</a>
-<a class="toc-link" href="#sec-67" data-idx="67">《测试版 1.329.37》</a>
-<a class="toc-link" href="#sec-68" data-idx="68">《测试版 1.329.36》</a>
-<a class="toc-link" href="#sec-69" data-idx="69">《测试版 1.329.34》</a>
-<a class="toc-link" href="#sec-70" data-idx="70">《测试版 1.329.33》</a>
-<a class="toc-link" href="#sec-71" data-idx="71">《测试版 1.329.32》</a>
-<a class="toc-link" href="#sec-72" data-idx="72">《测试版 1.329.31》补丁版</a>
-<a class="toc-link" href="#sec-73" data-idx="73">《测试版 1.329.3》</a>
-<a class="toc-link" href="#sec-74" data-idx="74">《测试版 1.329.2 &quot;4月9日修复版&quot; 》</a>
-<a class="toc-link" href="#sec-75" data-idx="75">《测试版 1.329.2 》</a>
-<a class="toc-link" href="#sec-76" data-idx="76">《测试版 1.329.1 》</a>
-<a class="toc-link" href="#sec-77" data-idx="77">《测试版 1.329 》</a>
-<a class="toc-link" href="#sec-78" data-idx="78">《测试版 1.328 》</a>
-<a class="toc-link" href="#sec-79" data-idx="79">《测试版 1.327 》</a>
-<a class="toc-link" href="#sec-80" data-idx="80">《测试版 1.325 》</a>
-<a class="toc-link" href="#sec-81" data-idx="81">《测试版 1.32 》</a>
-<a class="toc-link" href="#sec-82" data-idx="82">《测试版 1.315 》</a>
-<a class="toc-link" href="#sec-83" data-idx="83">《测试版 1.30 》</a>
-<a class="toc-link" href="#sec-84" data-idx="84">《测试版 1.29 》</a>
-<a class="toc-link" href="#sec-85" data-idx="85">《测试版 1.27 》</a>
-<a class="toc-link" href="#sec-86" data-idx="86">《测试版 1.26 》</a>
-<a class="toc-link" href="#sec-87" data-idx="87">《测试版 1.25 》</a>
-<a class="toc-link" href="#sec-88" data-idx="88">《测试版 1.22 》</a>
-<a class="toc-link" href="#sec-89" data-idx="89">《测试版 1.21 》</a>
-<a class="toc-link" href="#sec-90" data-idx="90">《测试版 1.20 》</a>
-<a class="toc-link" href="#sec-91" data-idx="91">《测试版 1.19 》</a>
-<a class="toc-link" href="#sec-92" data-idx="92">《测试版 1.18 》</a>
-<a class="toc-link" href="#sec-93" data-idx="93">《测试版 1.17 》</a>
-<a class="toc-link" href="#sec-94" data-idx="94">《测试版 1.16 》</a>
-<a class="toc-link" href="#sec-95" data-idx="95">《测试版 1.14 》</a>
-<a class="toc-link" href="#sec-96" data-idx="96">《测试版 1.13 》</a>
+<a class="toc-link" href="#sec-1">小更新</a>
+<a class="toc-link" href="#sec-2">《中秋节特别更新v2 &gt;&gt;&gt; 联网功能》</a>
+<a class="toc-link" href="#sec-3">《正式版 1.35  完结版》</a>
+<a class="toc-link" href="#sec-4">《正式版 1.34-Fix-65》</a>
+<a class="toc-link" href="#sec-5">《正式版 1.34-Fix-64》</a>
+<a class="toc-link" href="#sec-6">《正式版 1.34-Fix-63》</a>
+<a class="toc-link" href="#sec-7">《正式版 1.34-Fix-61~62》</a>
+<a class="toc-link" href="#sec-8">《正式版 1.34-Fix-60》</a>
+<a class="toc-link" href="#sec-9">《正式版 1.34-Fix-59》</a>
+<a class="toc-link" href="#sec-10">《正式版 1.34-Fix-58》</a>
+<a class="toc-link" href="#sec-11">《正式版 1.34-Fix-57》</a>
+<a class="toc-link" href="#sec-12">《正式版 1.34-Fix-56》</a>
+<a class="toc-link" href="#sec-13">《正式版 1.34-Fix-55》</a>
+<a class="toc-link" href="#sec-14">《正式版 1.34-Fix-54》</a>
+<a class="toc-link" href="#sec-15">《正式版 1.34-Fix-53》</a>
+<a class="toc-link" href="#sec-16">《正式版 1.34-Fix-52》</a>
+<a class="toc-link" href="#sec-17">《正式版 1.34-Fix-51》</a>
+<a class="toc-link" href="#sec-18">《正式版 1.34-Fix-50》</a>
+<a class="toc-link" href="#sec-19">《正式版 1.34-Fix-49》</a>
+<a class="toc-link" href="#sec-20">《正式版 1.34-Fix-48》</a>
+<a class="toc-link" href="#sec-21">《正式版 1.34-Fix-47》</a>
+<a class="toc-link" href="#sec-22">《正式版 1.34-Fix-46》</a>
+<a class="toc-link" href="#sec-23">《正式版 1.34-Fix-45》</a>
+<a class="toc-link" href="#sec-24">《正式版 1.34-Fix-44》</a>
+<a class="toc-link" href="#sec-25">《正式版 1.34-Fix-43》</a>
+<a class="toc-link" href="#sec-26">《正式版 1.34-Fix-42》</a>
+<a class="toc-link" href="#sec-27">《正式版 1.34-Fix-41》</a>
+<a class="toc-link" href="#sec-28">《测试版 1.34-Fix-40》</a>
+<a class="toc-link" href="#sec-29">《测试版 1.34-Fix-39》</a>
+<a class="toc-link" href="#sec-30">《测试版 1.34-Fix-38》</a>
+<a class="toc-link" href="#sec-31">《测试版 1.34-Fix-37》</a>
+<a class="toc-link" href="#sec-32">《测试版 1.34-Fix-36》</a>
+<a class="toc-link" href="#sec-33">《测试版 1.34-Fix-35》</a>
+<a class="toc-link" href="#sec-34">《测试版 1.34-Fix-34》</a>
+<a class="toc-link" href="#sec-35">《测试版 1.34-Fix-33》</a>
+<a class="toc-link" href="#sec-36">《测试版 1.34-Fix-32》</a>
+<a class="toc-link" href="#sec-37">《测试版 1.34-Fix-31》</a>
+<a class="toc-link" href="#sec-38">《测试版 1.34-Fix-30》</a>
+<a class="toc-link" href="#sec-39">《测试版 1.34-Fix-29》</a>
+<a class="toc-link" href="#sec-40">《测试版 1.34-Fix-28》</a>
+<a class="toc-link" href="#sec-41">《测试版 1.34-Fix-27》</a>
+<a class="toc-link" href="#sec-42">《测试版 1.34-Fix-26》</a>
+<a class="toc-link" href="#sec-43">《测试版 1.34-Fix-25》</a>
+<a class="toc-link" href="#sec-44">《测试版 1.34-Fix-24》</a>
+<a class="toc-link" href="#sec-45">《测试版 1.34-Fix-23》</a>
+<a class="toc-link" href="#sec-46">《测试版 1.34-Fix-22》</a>
+<a class="toc-link" href="#sec-47">《测试版 1.34-Fix-21》</a>
+<a class="toc-link" href="#sec-48">《测试版 1.34-Fix-20》</a>
+<a class="toc-link" href="#sec-49">《测试版 1.34-Fix-19》</a>
+<a class="toc-link" href="#sec-50">《测试版 1.34-Fix-18》</a>
+<a class="toc-link" href="#sec-51">《测试版 1.34-Fix-17》</a>
+<a class="toc-link" href="#sec-52">《测试版 1.34-Fix-16》</a>
+<a class="toc-link" href="#sec-53">《测试版 1.34-Fix-15》</a>
+<a class="toc-link" href="#sec-54">《测试版 1.34-Fix-14》</a>
+<a class="toc-link" href="#sec-55">《测试版 1.34-Fix-10》</a>
+<a class="toc-link" href="#sec-56">《测试版 1.34-Fix-09》</a>
+<a class="toc-link" href="#sec-57">《测试版 1.34-Fix-08》</a>
+<a class="toc-link" href="#sec-58">《测试版 1.34-Fix-07》</a>
+<a class="toc-link" href="#sec-59">《测试版 1.34-Fix-06》</a>
+<a class="toc-link" href="#sec-60">《测试版 1.34-Fix-05》</a>
+<a class="toc-link" href="#sec-61">《测试版 1.34-Fix-04》</a>
+<a class="toc-link" href="#sec-62">《测试版 1.34-Fix-03》</a>
+<a class="toc-link" href="#sec-63">《测试版 1.34-Fix-02》</a>
+<a class="toc-link" href="#sec-64">《测试版 1.34-Fix-01》</a>
+<a class="toc-link" href="#sec-65">《测试版 1.34》</a>
+<a class="toc-link" href="#sec-66">《测试版 1.33》</a>
+<a class="toc-link" href="#sec-67">《测试版 1.329.37》</a>
+<a class="toc-link" href="#sec-68">《测试版 1.329.36》</a>
+<a class="toc-link" href="#sec-69">《测试版 1.329.34》</a>
+<a class="toc-link" href="#sec-70">《测试版 1.329.33》</a>
+<a class="toc-link" href="#sec-71">《测试版 1.329.32》</a>
+<a class="toc-link" href="#sec-72">《测试版 1.329.31》补丁版</a>
+<a class="toc-link" href="#sec-73">《测试版 1.329.3》</a>
+<a class="toc-link" href="#sec-74">《测试版 1.329.2 &quot;4月9日修复版&quot; 》</a>
+<a class="toc-link" href="#sec-75">《测试版 1.329.2 》</a>
+<a class="toc-link" href="#sec-76">《测试版 1.329.1 》</a>
+<a class="toc-link" href="#sec-77">《测试版 1.329 》</a>
+<a class="toc-link" href="#sec-78">《测试版 1.328 》</a>
+<a class="toc-link" href="#sec-79">《测试版 1.327 》</a>
+<a class="toc-link" href="#sec-80">《测试版 1.325 》</a>
+<a class="toc-link" href="#sec-81">《测试版 1.32 》</a>
+<a class="toc-link" href="#sec-82">《测试版 1.315 》</a>
+<a class="toc-link" href="#sec-83">《测试版 1.30 》</a>
+<a class="toc-link" href="#sec-84">《测试版 1.29 》</a>
+<a class="toc-link" href="#sec-85">《测试版 1.27 》</a>
+<a class="toc-link" href="#sec-86">《测试版 1.26 》</a>
+<a class="toc-link" href="#sec-87">《测试版 1.25 》</a>
+<a class="toc-link" href="#sec-88">《测试版 1.22 》</a>
+<a class="toc-link" href="#sec-89">《测试版 1.21 》</a>
+<a class="toc-link" href="#sec-90">《测试版 1.20 》</a>
+<a class="toc-link" href="#sec-91">《测试版 1.19 》</a>
+<a class="toc-link" href="#sec-92">《测试版 1.18 》</a>
+<a class="toc-link" href="#sec-93">《测试版 1.17 》</a>
+<a class="toc-link" href="#sec-94">《测试版 1.16 》</a>
+<a class="toc-link" href="#sec-95">《测试版 1.14 》</a>
+<a class="toc-link" href="#sec-96">《测试版 1.13 》</a>
       </div>
     </div>
   </nav>
@@ -255,7 +249,8 @@
 <span class="num">2.</span> 超级发射器，对以下技能也生效：
 	水炮
 	加农光炮
-	加农水炮</div>
+	加农水炮
+<span class="num">3.</span> ...</div>
 </section>
 <section id="sec-2" class="sec">
 <h2>《中秋节特别更新v2 &gt;&gt;&gt; 联网功能》</h2>
@@ -1403,9 +1398,7 @@ SP.ATK	<span class="stat">55</span>	- <span class="stat">30</span> = <span class
 SP.DEF	<span class="stat">75</span>
 SPE		<span class="stat">82</span>  + <span class="stat">30</span> = <span class="stat">112</span>
 
-升级可学爆裂拳
-</div>
-<hr class="divider">
+升级可学爆裂拳</div>
 </section>
 <section id="sec-86" class="sec">
 <h2>《测试版 1.26 》</h2>
@@ -1593,8 +1586,8 @@ MEGA烈咬陆鲨种族值调整  速度： 92  + 20 = 112 特攻： 120 - 20 = 1
     var q = search.value.trim().toLowerCase();
     links.forEach(function (a, i) {
       var sec = sections[i];
-      var text = sec.textContent.toLowerCase();
-      var hit = !q || text.indexOf(q) !== -1 || a.textContent.toLowerCase().indexOf(q) !== -1;
+      var hit = !q || sec.textContent.toLowerCase().indexOf(q) !== -1
+                || a.textContent.toLowerCase().indexOf(q) !== -1;
       a.classList.toggle('hidden', !hit);
       sec.style.display = hit ? '' : 'none';
     });
@@ -1605,8 +1598,7 @@ MEGA烈咬陆鲨种族值调整  速度： 92  + 20 = 112 特攻： 120 - 20 = 1
       if (!isMobile()) return;
       tocPanel.classList.remove('open');
       tocToggle.classList.remove('open');
-      var id = a.getAttribute('href').slice(1);
-      var el = document.getElementById(id);
+      var el = document.getElementById(a.getAttribute('href').slice(1));
       if (!el) return;
       e.preventDefault();
       requestAnimationFrame(function () {
