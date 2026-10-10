@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>心金Promax更新日志</title>
+<style>
+  :root {
+    --bg: #0f1115;
+    --panel: #171a21;
+    --panel2: #1e222b;
+    --line: #2a2f3a;
+    --text: #d7dce5;
+    --muted: #8b93a3;
+    --accent: #5cc8ff;
+    --accent2: #ffd166;
+    --hdr: 104px;
+    --top: 64px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: var(--hdr); }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC", sans-serif;
+    line-height: 1.7;
+    font-size: 15px;
+  }
+  header.top {
+    padding: 22px 28px 16px;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, #1b1f28, #12151b);
+    position: sticky; top: 0; z-index: 20;
+  }
+  header.top h1 { margin: 0 0 4px; font-size: 20px; letter-spacing: 1px; }
+  header.top p { margin: 0; color: var(--muted); font-size: 12px; }
+  .layout { display: flex; align-items: flex-start; }
+  nav.toc {
+    width: 320px; flex: 0 0 320px;
+    position: sticky; top: var(--hdr);
+    height: calc(100vh - var(--hdr));
+    overflow-y: auto;
+    border-right: 1px solid var(--line);
+    background: var(--panel);
+    padding: 14px 10px 40px;
+  }
+  .search {
+    width: 100%; padding: 9px 12px; margin-bottom: 10px;
+    background: var(--panel2); border: 1px solid var(--line);
+    border-radius: 8px; color: var(--text); outline: none; font-size: 13px;
+  }
+  .search:focus { border-color: var(--accent); }
+  .toc-link {
+    display: block; padding: 7px 12px; margin: 2px 0;
+    color: var(--muted); text-decoration: none; font-size: 13px;
+    border-radius: 7px; border-left: 3px solid transparent;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    transition: background .15s, color .15s;
+  }
+  .toc-link:hover { background: var(--panel2); color: var(--text); }
+  .toc-link.active {
+    background: var(--panel2); color: var(--accent);
+    border-left-color: var(--accent);
+  }
+  .toc-link.hidden { display: none; }
+  .toc-toggle { display: none; }
+  .to-top {
+    display: none; position: fixed; right: 16px; bottom: 18px; z-index: 30;
+    width: 46px; height: 46px; border-radius: 50%;
+    background: var(--panel2); border: 1px solid var(--line);
+    color: var(--accent); font-size: 20px; line-height: 44px; text-align: center;
+    text-decoration: none; box-shadow: 0 4px 14px rgba(0,0,0,.4); opacity: 0;
+    transition: opacity .2s;
+  }
+  .to-top.show { opacity: 1; }
+  main {
+    flex: 1 1 auto; min-width: 0;
+    padding: 24px 34px 120px;
+    max-width: 1000px;
+  }
+  section.sec {
+    margin-bottom: 26px; padding: 18px 22px;
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 12px; scroll-margin-top: var(--hdr);
+  }
+  section.sec h2 {
+    margin: 0 0 14px; font-size: 17px; color: var(--accent2);
+    padding-bottom: 10px; border-bottom: 1px dashed var(--line);
+  }
+  .txt {
+    white-space: pre-wrap; word-break: break-word;
+    font-family: inherit; margin: 8px 0; color: var(--text);
+  }
+  .txt .str { color: #7ec699; }
+  .txt .num { color: #6fb7f5; font-weight: 600; }
+  .txt .stat { color: #f0a95e; }
+  .txt .arrow { color: #ff7b72; font-weight: 700; letter-spacing: -.5px; }
+  hr.divider { border: 0; border-top: 1px dashed var(--line); margin: 14px 0; }
+  .mark {
+    display: inline; background: rgba(92,200,255,.25);
+    border-radius: 3px;
+  }
+  @media (max-width: 820px) {
+    body { font-size: 14px; -webkit-text-size-adjust: 100%; }
+    .layout { display: block; }
+    header.top { padding: 14px 16px 10px; }
+    header.top h1 { font-size: 17px; }
+    header.top p { font-size: 11px; }
+    nav.toc {
+      position: sticky; top: var(--top, 64px); z-index: 15;
+      width: 100%; height: auto; overflow: visible;
+      border-right: 0; border-bottom: 0;
+      padding: 0;
+    }
+    .toc-toggle {
+      display: flex; align-items: center; justify-content: space-between;
+      width: 100%; padding: 10px 14px; margin-top: 10px;
+      background: var(--panel2); border: 1px solid var(--line);
+      border-radius: 9px; color: var(--text);
+      font-size: 14px; font-family: inherit; cursor: pointer;
+    }
+    .toc-toggle .arrow {
+      transition: transform .2s; color: var(--accent); font-size: 12px;
+    }
+    .toc-toggle.open .arrow { transform: rotate(180deg); }
+    .toc-panel { display: none; }
+    .toc-panel.open { display: block; padding: 8px 10px 12px; box-shadow: 0 14px 24px rgba(0,0,0,.45); }
+    .search { font-size: 16px; margin-top: 8px; margin-bottom: 6px; }
+    #toc-list { max-height: 52vh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+    .toc-link { padding: 10px 12px; font-size: 14px; }
+    main { padding: 14px 12px 90px; max-width: none; }
+    section.sec { padding: 14px 14px; margin-bottom: 16px; border-radius: 10px; }
+    section.sec h2 { font-size: 15px; margin-bottom: 10px; }
+    .to-top { display: block; }
+  }
+</style>
+</head>
+<body>
+<header class="top" id="top">
+  <h1>心金Promax更新日志</h1>
+  <p>共 96 个版本 · 点击目录快速定位</p>
+  <button class="toc-toggle" id="tocToggle" type="button">
+    <span>目录 · 共 96 个版本</span><span class="arrow">▼</span>
+  </button>
+</header>
+<div class="layout">
+  <nav class="toc">
+    <div class="toc-panel" id="tocPanel">
+      <input class="search" id="search" type="text" placeholder="搜索版本 / 关键词...">
+      <div id="toc-list">
+<a class="toc-link" href="#sec-1" data-idx="1">小更新</a>
+<a class="toc-link" href="#sec-2" data-idx="2">《中秋节特别更新v2 &gt;&gt;&gt; 联网功能》</a>
+<a class="toc-link" href="#sec-3" data-idx="3">《正式版 1.35  完结版》</a>
+<a class="toc-link" href="#sec-4" data-idx="4">《正式版 1.34-Fix-65》</a>
+<a class="toc-link" href="#sec-5" data-idx="5">《正式版 1.34-Fix-64》</a>
+<a class="toc-link" href="#sec-6" data-idx="6">《正式版 1.34-Fix-63》</a>
+<a class="toc-link" href="#sec-7" data-idx="7">《正式版 1.34-Fix-61~62》</a>
+<a class="toc-link" href="#sec-8" data-idx="8">《正式版 1.34-Fix-60》</a>
+<a class="toc-link" href="#sec-9" data-idx="9">《正式版 1.34-Fix-59》</a>
+<a class="toc-link" href="#sec-10" data-idx="10">《正式版 1.34-Fix-58》</a>
+<a class="toc-link" href="#sec-11" data-idx="11">《正式版 1.34-Fix-57》</a>
+<a class="toc-link" href="#sec-12" data-idx="12">《正式版 1.34-Fix-56》</a>
+<a class="toc-link" href="#sec-13" data-idx="13">《正式版 1.34-Fix-55》</a>
+<a class="toc-link" href="#sec-14" data-idx="14">《正式版 1.34-Fix-54》</a>
+<a class="toc-link" href="#sec-15" data-idx="15">《正式版 1.34-Fix-53》</a>
+<a class="toc-link" href="#sec-16" data-idx="16">《正式版 1.34-Fix-52》</a>
+<a class="toc-link" href="#sec-17" data-idx="17">《正式版 1.34-Fix-51》</a>
+<a class="toc-link" href="#sec-18" data-idx="18">《正式版 1.34-Fix-50》</a>
+<a class="toc-link" href="#sec-19" data-idx="19">《正式版 1.34-Fix-49》</a>
+<a class="toc-link" href="#sec-20" data-idx="20">《正式版 1.34-Fix-48》</a>
+<a class="toc-link" href="#sec-21" data-idx="21">《正式版 1.34-Fix-47》</a>
+<a class="toc-link" href="#sec-22" data-idx="22">《正式版 1.34-Fix-46》</a>
+<a class="toc-link" href="#sec-23" data-idx="23">《正式版 1.34-Fix-45》</a>
+<a class="toc-link" href="#sec-24" data-idx="24">《正式版 1.34-Fix-44》</a>
+<a class="toc-link" href="#sec-25" data-idx="25">《正式版 1.34-Fix-43》</a>
+<a class="toc-link" href="#sec-26" data-idx="26">《正式版 1.34-Fix-42》</a>
+<a class="toc-link" href="#sec-27" data-idx="27">《正式版 1.34-Fix-41》</a>
+<a class="toc-link" href="#sec-28" data-idx="28">《测试版 1.34-Fix-40》</a>
+<a class="toc-link" href="#sec-29" data-idx="29">《测试版 1.34-Fix-39》</a>
+<a class="toc-link" href="#sec-30" data-idx="30">《测试版 1.34-Fix-38》</a>
+<a class="toc-link" href="#sec-31" data-idx="31">《测试版 1.34-Fix-37》</a>
+<a class="toc-link" href="#sec-32" data-idx="32">《测试版 1.34-Fix-36》</a>
+<a class="toc-link" href="#sec-33" data-idx="33">《测试版 1.34-Fix-35》</a>
+<a class="toc-link" href="#sec-34" data-idx="34">《测试版 1.34-Fix-34》</a>
+<a class="toc-link" href="#sec-35" data-idx="35">《测试版 1.34-Fix-33》</a>
+<a class="toc-link" href="#sec-36" data-idx="36">《测试版 1.34-Fix-32》</a>
+<a class="toc-link" href="#sec-37" data-idx="37">《测试版 1.34-Fix-31》</a>
+<a class="toc-link" href="#sec-38" data-idx="38">《测试版 1.34-Fix-30》</a>
+<a class="toc-link" href="#sec-39" data-idx="39">《测试版 1.34-Fix-29》</a>
+<a class="toc-link" href="#sec-40" data-idx="40">《测试版 1.34-Fix-28》</a>
+<a class="toc-link" href="#sec-41" data-idx="41">《测试版 1.34-Fix-27》</a>
+<a class="toc-link" href="#sec-42" data-idx="42">《测试版 1.34-Fix-26》</a>
+<a class="toc-link" href="#sec-43" data-idx="43">《测试版 1.34-Fix-25》</a>
+<a class="toc-link" href="#sec-44" data-idx="44">《测试版 1.34-Fix-24》</a>
+<a class="toc-link" href="#sec-45" data-idx="45">《测试版 1.34-Fix-23》</a>
+<a class="toc-link" href="#sec-46" data-idx="46">《测试版 1.34-Fix-22》</a>
+<a class="toc-link" href="#sec-47" data-idx="47">《测试版 1.34-Fix-21》</a>
+<a class="toc-link" href="#sec-48" data-idx="48">《测试版 1.34-Fix-20》</a>
+<a class="toc-link" href="#sec-49" data-idx="49">《测试版 1.34-Fix-19》</a>
+<a class="toc-link" href="#sec-50" data-idx="50">《测试版 1.34-Fix-18》</a>
+<a class="toc-link" href="#sec-51" data-idx="51">《测试版 1.34-Fix-17》</a>
+<a class="toc-link" href="#sec-52" data-idx="52">《测试版 1.34-Fix-16》</a>
+<a class="toc-link" href="#sec-53" data-idx="53">《测试版 1.34-Fix-15》</a>
+<a class="toc-link" href="#sec-54" data-idx="54">《测试版 1.34-Fix-14》</a>
+<a class="toc-link" href="#sec-55" data-idx="55">《测试版 1.34-Fix-10》</a>
+<a class="toc-link" href="#sec-56" data-idx="56">《测试版 1.34-Fix-09》</a>
+<a class="toc-link" href="#sec-57" data-idx="57">《测试版 1.34-Fix-08》</a>
+<a class="toc-link" href="#sec-58" data-idx="58">《测试版 1.34-Fix-07》</a>
+<a class="toc-link" href="#sec-59" data-idx="59">《测试版 1.34-Fix-06》</a>
+<a class="toc-link" href="#sec-60" data-idx="60">《测试版 1.34-Fix-05》</a>
+<a class="toc-link" href="#sec-61" data-idx="61">《测试版 1.34-Fix-04》</a>
+<a class="toc-link" href="#sec-62" data-idx="62">《测试版 1.34-Fix-03》</a>
+<a class="toc-link" href="#sec-63" data-idx="63">《测试版 1.34-Fix-02》</a>
+<a class="toc-link" href="#sec-64" data-idx="64">《测试版 1.34-Fix-01》</a>
+<a class="toc-link" href="#sec-65" data-idx="65">《测试版 1.34》</a>
+<a class="toc-link" href="#sec-66" data-idx="66">《测试版 1.33》</a>
+<a class="toc-link" href="#sec-67" data-idx="67">《测试版 1.329.37》</a>
+<a class="toc-link" href="#sec-68" data-idx="68">《测试版 1.329.36》</a>
+<a class="toc-link" href="#sec-69" data-idx="69">《测试版 1.329.34》</a>
+<a class="toc-link" href="#sec-70" data-idx="70">《测试版 1.329.33》</a>
+<a class="toc-link" href="#sec-71" data-idx="71">《测试版 1.329.32》</a>
+<a class="toc-link" href="#sec-72" data-idx="72">《测试版 1.329.31》补丁版</a>
+<a class="toc-link" href="#sec-73" data-idx="73">《测试版 1.329.3》</a>
+<a class="toc-link" href="#sec-74" data-idx="74">《测试版 1.329.2 &quot;4月9日修复版&quot; 》</a>
+<a class="toc-link" href="#sec-75" data-idx="75">《测试版 1.329.2 》</a>
+<a class="toc-link" href="#sec-76" data-idx="76">《测试版 1.329.1 》</a>
+<a class="toc-link" href="#sec-77" data-idx="77">《测试版 1.329 》</a>
+<a class="toc-link" href="#sec-78" data-idx="78">《测试版 1.328 》</a>
+<a class="toc-link" href="#sec-79" data-idx="79">《测试版 1.327 》</a>
+<a class="toc-link" href="#sec-80" data-idx="80">《测试版 1.325 》</a>
+<a class="toc-link" href="#sec-81" data-idx="81">《测试版 1.32 》</a>
+<a class="toc-link" href="#sec-82" data-idx="82">《测试版 1.315 》</a>
+<a class="toc-link" href="#sec-83" data-idx="83">《测试版 1.30 》</a>
+<a class="toc-link" href="#sec-84" data-idx="84">《测试版 1.29 》</a>
+<a class="toc-link" href="#sec-85" data-idx="85">《测试版 1.27 》</a>
+<a class="toc-link" href="#sec-86" data-idx="86">《测试版 1.26 》</a>
+<a class="toc-link" href="#sec-87" data-idx="87">《测试版 1.25 》</a>
+<a class="toc-link" href="#sec-88" data-idx="88">《测试版 1.22 》</a>
+<a class="toc-link" href="#sec-89" data-idx="89">《测试版 1.21 》</a>
+<a class="toc-link" href="#sec-90" data-idx="90">《测试版 1.20 》</a>
+<a class="toc-link" href="#sec-91" data-idx="91">《测试版 1.19 》</a>
+<a class="toc-link" href="#sec-92" data-idx="92">《测试版 1.18 》</a>
+<a class="toc-link" href="#sec-93" data-idx="93">《测试版 1.17 》</a>
+<a class="toc-link" href="#sec-94" data-idx="94">《测试版 1.16 》</a>
+<a class="toc-link" href="#sec-95" data-idx="95">《测试版 1.14 》</a>
+<a class="toc-link" href="#sec-96" data-idx="96">《测试版 1.13 》</a>
+      </div>
+    </div>
+  </nav>
+  <main id="content">
+<section id="sec-1" class="sec">
+<h2>小更新</h2>
+<div class="txt"><span class="num">1.</span> MEGA 水箭龟 <span class="arrow">&gt;&gt;&gt;</span> 水+钢
+<span class="num">2.</span> 超级发射器，对以下技能也生效：
+	水炮
+	加农光炮
+	加农水炮</div>
+</section>
+<section id="sec-2" class="sec">
+<h2>《中秋节特别更新v2 &gt;&gt;&gt; 联网功能》</h2>
+<div class="txt">⚠️注意：联网功能，只有melonds🍉模拟器才支持
+（或者melonds核心的模拟器，譬如retroarch）
+
+<span class="num">1.</span> 新增从网络获取🎁<span class="str">&quot;神秘礼物&quot;</span>功能!
+   在读取存档的界面，点击神秘礼物，选择<span class="str">&quot;通过Wi-Fi接收&quot;</span>，即可收到
+   (获得了图鉴📄后自动开启)
+
+   <span class="arrow">&gt;&gt;&gt;</span> 神秘礼物 可以用来接收 <span class="str">&quot;精灵&quot;</span> 与 <span class="str">&quot;道具&quot;</span>
+
+<span class="num">2.</span> 新增联机交换功能！
+   通过<span class="str">&quot;吉花市&quot;</span>二楼最左边的NPC对话，输入6位密码，实现联机交换精灵。
+
+
+<span class="num">1.</span> 增加野外配种/孵蛋（解决用了HOME传精灵以后不听话的问题）
+	<span class="arrow">&gt;&gt;&gt;</span> 直接选一只身上的精灵，就能获得他的蛋
+	
+<span class="num">2.</span> 更新对 实机NDSI的兼容性，不会红屏（也许）
+
+
+加一个战斗后努力值检测
+如果所有的努力值总和超过510
+那么就清零</div>
+</section>
+<section id="sec-3" class="sec">
+<h2>《正式版 1.35  完结版》</h2>
+<div class="txt">⚠️此次更新结构结构改变，不支持窜档
+
+<span class="arrow">&gt;&gt;&gt;</span>  箱子再次扩容 30 <span class="arrow">&gt;&gt;&gt;</span>  36   36*30 = 最多可储存 1080 只精灵
+<span class="arrow">&gt;&gt;&gt;</span>  流量消耗巨大、硬件性能不足，HOME将在一周后关闭。
+<span class="arrow">&gt;&gt;&gt;</span>  HOME不支持读取最新-完结版的存档。（之前的可以）
+
+<span class="num">0.</span> 修复 <span class="str">&quot;M-快泳蛙&quot;</span>的贴图
+<span class="num">1.</span>	新增 <span class="str">&quot;灾厄阿勃梭鲁&quot;</span> 的闪光配色
+<span class="num">2.</span>	新增 <span class="str">&quot;冥界亚龙&quot;</span>    的闪光配色
+<span class="num">3.</span> 月月熊 Lv.10 回忆 <span class="str">&quot;火焰拳&quot;</span>
+<span class="num">4.</span> AI 智力调整。
+<span class="num">5.</span> 浅葱市PC左侧房间，新增一个NPC，打赢可以获得<span class="str">&quot;纸御剑&quot;</span>。</div>
+</section>
+<section id="sec-4" class="sec">
+<h2>《正式版 1.34-Fix-65》</h2>
+<div class="txt"><span class="num">1.</span> 玉虹市（百货商店-4F） 添加 <span class="str">&quot;永恒花叶蒂进化石&quot;</span>
+<span class="num">2.</span> 新增 M-永恒花叶蒂，永恒形态的才可MEGA
+<span class="num">3.</span> 新增 『按R扔球提示』 开关，有些人觉得碍眼的可以关闭
+
+<span class="num">4.</span> 新增 <span class="str">&quot;灾厄阿勃梭鲁&quot;</span>  <span class="arrow">&gt;&gt;&gt;</span> 『浅葱市钓鱼佬房间，NPC融合获取』
+
+特性: 灾厄皮肤 - 同时拥有锋锐与魔法镜的效果
+HP      :<span class="stat">95</span>
+ATK     :<span class="stat">150</span>
+DEF     :<span class="stat">100</span>
+SP.ATK  :<span class="stat">65</span>
+SP.DEF  :<span class="stat">85</span>
+SPE     :<span class="stat">120</span>
+综合:<span class="stat">615</span>
+
+技能可学: 暗袭要害、暗影爪、水波刀、二连劈
+
+<span class="num">5.</span> R36 可抓住野生的 M-阿勃梭鲁Z （黑色）
+	R38 可抓住野生的 M-阿勃梭鲁  （白色）</div>
+</section>
+<section id="sec-5" class="sec">
+<h2>《正式版 1.34-Fix-64》</h2>
+<div class="txt"><span class="num">1.</span> 训练家战斗不再显示 R键扔球提示图标
+<span class="num">2.</span> 魅影猫后 技能机学习面修复
+<span class="num">3.</span> 遭遇查看器 优化 UI与操作逻辑
+<span class="num">4.</span> 烟墨市PC中心老头子的定点教学 添加<span class="str">&quot;岩崩&quot;</span>教学 
+<span class="num">5.</span> 炎武王 速度 -30 攻击 + 30 = 153 
+<span class="num">6.</span> 狃拉、玛狃拉、大狃拉 围攻教学修复
+<span class="num">7.</span> 甲贺忍蛙 可回忆 <span class="str">&quot;自我激励&quot;</span>
+<span class="num">8.</span> 修复野外双打遇见2只同时闪光，导致卡死的问题</div>
+</section>
+<section id="sec-6" class="sec">
+<h2>《正式版 1.34-Fix-63》</h2>
+<div class="txt"><span class="num">0.</span> 新增<span class="str">&quot;快捷投球&quot;</span>功能，野外战斗中按R可快速投球
+	<span class="arrow">&gt;&gt;&gt;</span> 按住<span class="str">&quot;R&quot;</span> 左右可切换精灵球类型
+
+<span class="num">1.</span> 随机特性完成后会有具体特性的文字提示
+<span class="num">2.</span> 遭遇查看器(探宝器) UI 大更新，而且可以快捷使用<span class="str">&quot;连锁券&quot;</span>
+
+<span class="num">3.</span> 霸王花添加 <span class="str">&quot;寄生种子&quot;</span>的学习面（定点、遗传）
+<span class="num">4.</span> 新增 魅影猫后 （♀猫老大 使用<span class="str">&quot;巨大金珠&quot;</span>进化）
+属性: 恶妖  特性:妖精皮肤
+Hp     <span class="stat">105</span>
+物攻    <span class="stat">65</span>
+物防    <span class="stat">85</span>
+特工    <span class="stat">130</span>
+特防    <span class="stat">100</span>
+速度    <span class="stat">115</span>
+综合:  <span class="stat">534</span>
+
+升级可学<span class="str">&quot;大声咆哮&quot;</span>、<span class="str">&quot;月亮之力&quot;</span>、<span class="str">&quot;巨声&quot;</span></div>
+</section>
+<section id="sec-7" class="sec">
+<h2>《正式版 1.34-Fix-61~62》</h2>
+<div class="txt"><span class="num">1.</span> 修复二周目遗迹的部分剧情
+<span class="num">2.</span> 删除白银山洞口挡路的NPC
+<span class="num">3.</span> 新增<span class="str">&quot;降个体糖果&quot;</span> <span class="arrow">&gt;&gt;&gt;</span> 缘朱市-商店 可购买
+<span class="num">4.</span> 修复<span class="str">&quot;龙声鼓舞&quot;</span>定点教学的BUG
+<span class="num">5.</span> 喇叭塔<span class="str">&quot;蛮干&quot;</span>（莫鲁贝可）、<span class="str">&quot;围攻&quot;</span>技能教学，适配后时代精灵。
+<span class="num">6.</span> 修复联盟的贝托剧情（大概）
+<span class="num">7.</span> 修复新部分MEGA叫声不对的问题。</div>
+</section>
+<section id="sec-8" class="sec">
+<h2>《正式版 1.34-Fix-60》</h2>
+<div class="txt"><span class="num">1.</span> 修复饭匙蛇属性不对的问题
+<span class="num">2.</span> 修复会员商店 快龙石 与 毒藻龙弄混的BUG
+<span class="num">3.</span> 修复 二周目通过1号道路过道时，卡死的问题
+<span class="num">4.</span> 修复 二周目遗迹某个柱子对话无法进入的问题</div>
+</section>
+<section id="sec-9" class="sec">
+<h2>《正式版 1.34-Fix-59》</h2>
+<div class="txt"><span class="num">0.</span> 修复变身小照会变成 冰雪龙人柱力的BUG。
+<span class="num">1.</span> 遭遇查看器 可查看狩猎区的遭遇情况（可以手动刷新）
+<span class="num">2.</span> 狩猎区水区新增 <span class="str">&quot;珍珠贝&quot;</span>、<span class="str">&quot;古空棘鱼&quot;</span>(花田的水面) ---修复下古空棘鱼的遭遇
+<span class="num">3.</span> 新增特性<span class="str">&quot;恶魔滚动&quot;</span>: 使用滚动技能命中后，防御、速度提升 1 级
+	大奶罐 专属
+<span class="num">4.</span> 普通系道馆的阵容调整</div>
+</section>
+<section id="sec-10" class="sec">
+<h2>《正式版 1.34-Fix-58》</h2>
+<div class="txt"><span class="num">0.</span> 修复战斗中中毒引起的卡死BUG
+<span class="num">1.</span> 饭匙蛇  5%概率携带 <span class="str">&quot;剧毒宝珠&quot;</span>
+<span class="num">2.</span> 会员商店添加 <span class="str">&quot;酸酸苹果&quot;</span>、<span class="str">&quot;甜甜苹果&quot;</span>、 <span class="str">&quot;蜜汁苹果&quot;</span>
+<span class="num">3.</span> 啃果🐛 5%概率携带 <span class="str">&quot;蜜汁苹果&quot;</span>
+<span class="num">4.</span> 烟墨市PC中心老头子的定点教学 添加 <span class="str">&quot;龙声鼓舞&quot;</span>
+<span class="num">5.</span> 冰雪巨龙 携带不融冰 进化 <span class="str">&quot;冰晶巨龙&quot;</span>
+冰晶巨龙  冰晶之躯: 兼具 <span class="str">&quot;冰皮&quot;</span>（一般招变冰） + <span class="str">&quot;冰冻之躯&quot;</span> (每回合回复HP)
+   HP  : <span class="stat">123</span> +  <span class="stat">19</span> = <span class="stat">142</span>
+   攻击 : <span class="stat">37</span>
+   防御 : <span class="stat">120</span> 
+   特攻 : <span class="stat">130</span>
+   特防 : <span class="stat">92</span>  +  <span class="stat">20</span> = <span class="stat">112</span>
+   速度 : <span class="stat">44</span>
+   综合 : <span class="stat">585</span>
+
+<span class="num">6.</span> 冰冻之躯 雪天下每回合回复 1/16 <span class="arrow">&gt;&gt;&gt;</span> 1/8</div>
+</section>
+<section id="sec-11" class="sec">
+<h2>《正式版 1.34-Fix-57》</h2>
+<div class="txt"><span class="num">1.</span> <span class="str">&quot;号令&quot;</span>技能实装
+<span class="num">2.</span> 优化 阿柏怪以及进化型的技能机配置
+<span class="num">3.</span> 阿勃梭鲁添加 <span class="str">&quot;急速折返&quot;</span>、<span class="str">&quot;烈焰回转&quot;</span> 的学习面
+<span class="num">4.</span> 洗翠大剑鬼 Lv.27 学习 <span class="str">&quot;水波刀&quot;</span>
+<span class="num">5.</span> 洗翠风速狗 特性: 威吓、引火、<span class="str">&quot;铁头功&quot;</span>
+<span class="num">6.</span> 飞天螳螂 Lv.26 学习<span class="str">&quot;双翼&quot;</span> 、 
+<span class="num">7.</span> 炎武王 双防+25 特攻-50 	，洗翠大剑鬼 特攻-12 攻击+12
+<span class="num">7.</span> 新增特性 <span class="str">&quot;猛毒活化&quot;</span>: 兼具毒疗 与 中毒激升 （中毒时 攻击增加 50%）
+	新增特性 <span class="str">&quot;蛇之感应&quot;</span>: 如果对面使用接触攻击时，会先手使出技能。
+
+猫鼬斩 特性: 免疫、中毒激升、<span class="str">&quot;猛毒活化&quot;</span>
+
+HP  :  <span class="stat">73</span> + <span class="stat">17</span> = <span class="stat">90</span>
+攻击 : <span class="stat">115</span> + <span class="stat">5</span>  = <span class="stat">120</span>
+防御 : <span class="stat">60</span>  + <span class="stat">30</span> = <span class="stat">90</span>
+特攻 : <span class="stat">60</span>
+特防 : <span class="stat">60</span>
+速度 : <span class="stat">90</span>  + <span class="stat">15</span> = <span class="stat">105</span>
+综合 : <span class="stat">525</span>
+
+饭匙蛇 特性: 蜕皮、穿透、<span class="str">&quot;蛇之感应&quot;</span>
+
+HP  :  <span class="stat">73</span>
+攻击 : <span class="stat">100</span> + <span class="stat">37</span> = <span class="stat">137</span>
+防御 : <span class="stat">60</span>  + <span class="stat">15</span> = <span class="stat">75</span>
+特攻 : <span class="stat">100</span>
+特防 : <span class="stat">60</span>  + <span class="stat">15</span> = <span class="stat">75</span>
+速度 : <span class="stat">65</span>
+综合 : <span class="stat">525</span>
+
+冥界亚龙 调整:
+
+HP:    <span class="stat">105</span>
+ATK:   <span class="stat">130</span>  - <span class="stat">30</span> = <span class="stat">100</span>
+DEF:   <span class="stat">90</span>   + <span class="stat">30</span> = <span class="stat">120</span>
+SPATK: <span class="stat">60</span>
+SPDEF: <span class="stat">100</span>  
+SPE:   <span class="stat">115</span>
+综合: <span class="stat">600</span>	</div>
+</section>
+<section id="sec-12" class="sec">
+<h2>《正式版 1.34-Fix-56》</h2>
+<div class="txt"><span class="num">1.</span> 优化 巨钳螳螂、M-巨钳螳螂的贴图和配色
+<span class="num">2.</span> 黏宝宝 可以使用 <span class="str">&quot;洗翠结晶&quot;</span>进化成 洗翠-黏美儿
+<span class="num">3.</span> 修复M-头巾混混、M-泥偶巨人 等级不对的问题
+<span class="num">4.</span> 释陀果 放入玉虹市商店
+<span class="num">5.</span> 阿柏怪增加 <span class="str">&quot;报恩&quot;</span>、<span class="str">&quot;泰山压顶&quot;</span>、<span class="str">&quot;拍落&quot;</span>等技能 Lv.22~25。
+
+<span class="num">6.</span> M-暴雪王调整: 特性 <span class="arrow">&gt;&gt;&gt;</span> <span class="str">&quot;暴雪者&quot;</span>: 出场时降雪（雪景），同时被攻击时属性计算只有冰系。
+	
+HP:    <span class="stat">90</span>
+ATK:   <span class="stat">132</span>
+DEF:   <span class="stat">105</span> + <span class="stat">15</span> = <span class="stat">120</span>
+SPATK: <span class="stat">132</span> - <span class="stat">30</span> = <span class="stat">102</span>
+SPDEF: <span class="stat">105</span> + <span class="stat">15</span> = <span class="stat">120</span>
+SPE:   <span class="stat">30</span>
+综合： <span class="stat">594</span></div>
+</section>
+<section id="sec-13" class="sec">
+<h2>《正式版 1.34-Fix-55》</h2>
+<div class="txt"><span class="num">1.</span> 百变伊布的专属技能，命中率都调为 100
+<span class="num">2.</span> 百变伊布可以学习任何技能机
+
+<span class="num">3.</span> 添加铁哑铃的遭遇 <span class="arrow">&gt;&gt;&gt;</span> 狩猎区-荒地-白天
+
+<span class="num">3.</span> 修复 土龙弟弟 Lv.32 学习<span class="str">&quot;强力钻&quot;</span>进化
+	修复 刺甲贝 可回忆<span class="str">&quot;飞弹针&quot;</span>
+<span class="num">4.</span> 修复 <span class="str">&quot;青草滑梯&quot;</span>可教学 <span class="str">&quot;巨蔓藤&quot;</span>
+<span class="num">5.</span> 修复 极巨化攻击 无法穿透保护的bug
+<span class="num">6.</span> 修复 M-蜈蚣王、M-雪妖女 等级不对的问题
+<span class="num">7.</span> 修复 - 踩踏 - 疯狂滚压 - 泰山压顶
+  		 - 龙之俯冲 - 飞身重压- 高温重压 - 重磅冲撞
+   这些技能对于变小状态的精灵 <span class="str">&quot;必中+伤害双倍&quot;</span>的效果</div>
+</section>
+<section id="sec-14" class="sec">
+<h2>《正式版 1.34-Fix-54》</h2>
+<div class="txt"><span class="num">1.</span> 修复<span class="str">&quot;鹦鹉学舌&quot;</span>技能无限循环的问题
+<span class="num">2.</span> 蜈蚣王可回忆: 垃圾射击、铁头
+<span class="num">3.</span> 新增特性:<span class="str">&quot;蛇眼威压&quot;</span> 出场降低对面的特攻
+<span class="num">4.</span> 新增特性:<span class="str">&quot;亚龙皮肤&quot;</span> 普通招式以毒系用出，并且威力提升 + 接触者中剧毒
+
+<span class="num">5.</span> *******精灵调整******* 
+<span class="arrow">&gt;&gt;&gt;</span> 叉字蝠  特性:精神力、毒手、超幸运
+
+HP:    <span class="stat">85</span>
+ATK:   <span class="stat">90</span>  + <span class="stat">20</span> = <span class="stat">110</span>
+DEF:   <span class="stat">80</span>
+SPATK: <span class="stat">70</span>  - <span class="stat">20</span> = <span class="stat">50</span>
+SPDEF: <span class="stat">80</span>
+SPE:   <span class="stat">130</span>
+综合： <span class="stat">535</span>    Lv.<span class="stat">23</span> 学双翼 以及调整技能学习等级
+ 
+<span class="arrow">&gt;&gt;&gt;</span> 阿柏怪 特性: 威吓、蛇眼威压、紧张感
+
+HP:    <span class="stat">60</span> + <span class="stat">32</span> = <span class="stat">92</span>
+ATK:   <span class="stat">95</span>
+DEF:   <span class="stat">69</span>
+SPATK: <span class="stat">65</span>
+SPDEF: <span class="stat">79</span>
+SPE:   <span class="stat">80</span> + <span class="stat">20</span> = <span class="stat">100</span>
+综合: <span class="stat">448</span>  + <span class="stat">52</span> = <span class="stat">500</span>   Lv. <span class="stat">21</span> 进化，进化时学习 盘蜷
+
+<span class="arrow">&gt;&gt;&gt;</span> 冥界亚龙 特性:亚龙皮肤   (阿柏怪 携带<span class="str">&quot;剧毒宝珠&quot;</span>进化)
+
+HP:    <span class="stat">105</span>
+ATK:   <span class="stat">130</span>
+DEF:   <span class="stat">90</span>
+SPATK: <span class="stat">60</span>
+SPDEF: <span class="stat">100</span>
+SPE:   <span class="stat">115</span>
+综合: <span class="stat">600</span>		</div>
+</section>
+<section id="sec-15" class="sec">
+<h2>《正式版 1.34-Fix-53》</h2>
+<div class="txt">⭐HOME系统优化：
+
+<span class="num">1.</span> 现在HOME系统，最多可存放 60只(2箱)
+<span class="num">2.</span> 新增存档转换功能， 可把旧存档转换成适配 30盒子版本的新存档
+<span class="num">3.</span> 游戏的盒子扩容，数量从 18 <span class="arrow">&gt;&gt;&gt;</span> 30  最多储存 900 精灵
+
+<span class="num">1.</span> 极巨化道具 改成携带<span class="str">&quot;极巨腕带&quot;</span>
+	<span class="arrow">&gt;&gt;&gt;</span> 桔梗市BP 购买
+<span class="num">2.</span> 与跟随精灵对话，新增变装功能，可变身<span class="str">&quot;小照&quot;</span>，但是战斗中的背面图不变。
+	<span class="arrow">&gt;&gt;&gt;</span> 仅供娱乐
+
+<span class="num">3.</span> 修复围攻的威力过低的问题
+<span class="num">4.</span> 修复百变伊布战斗后不会复原的问题
+<span class="num">5.</span> 修复卡吉镇小屋子 <span class="str">&quot;大地之力&quot;</span>教学后时代精灵适配的问题
+
+<span class="num">6.</span> 暴飞龙 Lv.50 学习舍身冲撞(原先是Lv.73)
+<span class="num">7.</span> 二周目浅红市 草埔新增NPC，可以交换<span class="str">&quot;永恒花蒂叶&quot;</span>
+<span class="num">8.</span> 二周目玉虹市（百货商店-4F） 添加<span class="str">&quot;洗翠结晶&quot;</span>、<span class="str">&quot;海岛贝壳&quot;</span></div>
+</section>
+<section id="sec-16" class="sec">
+<h2>《正式版 1.34-Fix-52》</h2>
+<div class="txt"><span class="num">1.</span> 修复哨子教学技能<span class="str">&quot;热水&quot;</span>。
+<span class="num">2.</span> 修复极巨超能卡死的问题
+<span class="num">3.</span> 修复极巨拳斗、飞冲，先提升再攻击的BUG
+<span class="num">4.</span> 修复极巨大地打队友的问题
+
+
+<span class="num">5.</span> 巨沼怪、猫老大闪光贴图优化
+<span class="num">6.</span> 阿尔宙斯可以学习所有的技能机器
+<span class="num">7.</span> 玉虹市（百货商店-4F） 加入<span class="str">&quot;惩戒之壶&quot;</span>。
+<span class="num">8.</span> 虫系道馆商店增加NPC ，可以购买进化道具（升级数据等）。
+<span class="num">9.</span> 打赢钢道馆 蜜柑会送一个『铝钢龙』的蛋🥚。
+
+<span class="num">10.</span> 喵喵的击掌奇袭 调整获取等级。(方便偷他道具)
+<span class="num">11.</span> 洗翠风速狗 添加<span class="str">&quot;舍身冲撞&quot;</span>、<span class="str">&quot;双刃头锤&quot;</span>的蛋招式 (更多精灵类似)
+
+
+<span class="num">11.</span> 新增<span class="str">&quot;单属性&quot;</span>随机模式，利好尝试单属性通关的玩家！</div>
+</section>
+<section id="sec-17" class="sec">
+<h2>《正式版 1.34-Fix-51》</h2>
+<div class="txt"><span class="num">1.</span> 难度下调 <span class="arrow">&gt;&gt;&gt;</span>  剧情、普通模式，BOSS的场地不生效
+			 <span class="arrow">&gt;&gt;&gt;</span>  仅噩梦模式的BOSS 拥有特殊场地效果。</div>
+</section>
+<section id="sec-18" class="sec">
+<h2>《正式版 1.34-Fix-50》</h2>
+<div class="txt"><span class="num">1.</span> MEGA妖火红狐 特性还是飘浮
+<span class="num">2.</span> 新增<span class="str">&quot;努力值调整器&quot;</span>,可手动调整已获取的努力值分配
+	<span class="arrow">&gt;&gt;&gt;</span>  <span class="str">&quot;努力值调整器&quot;</span> 可直接跟随精灵对话使用 </div>
+</section>
+<section id="sec-19" class="sec">
+<h2>《正式版 1.34-Fix-49》</h2>
+<div class="txt"><span class="num">1.</span> 修复极巨化死亡后仍旧存在极巨化的BUG
+<span class="num">2.</span> 修复极巨防壁、极巨飞冲、极巨拳斗的BUG
+<span class="num">3.</span> 修复极巨化仍吃击掌奇袭的BUG
+<span class="num">3.</span> 修复添加部分极巨招式的技能动画
+<span class="num">4.</span> 修复栎树林头锤教学的BUG
+
+
+<span class="num">5.</span> 铁臂膀贴图优化、M-快泳蛙 背面、正面图优化
+<span class="num">6.</span> 擂钵山内部深处 墨海马对话卡住修复
+<span class="num">7.</span> 新增<span class="str">&quot;空间扭曲&quot;</span>特性，登场开空间-返场。
+	多边兽乙型 隐藏特性  <span class="arrow">&gt;&gt;&gt;</span> <span class="str">&quot;空间扭曲&quot;</span></div>
+</section>
+<section id="sec-20" class="sec">
+<h2>《正式版 1.34-Fix-48》</h2>
+<div class="txt">此版本为<span class="arrow">&gt;&gt;&gt;</span>修复BUG版本, 可窜档
+
+<span class="num">1.</span> 修复 武道熊师进化后的性别变化的问题
+<span class="num">2.</span> 修复 幽灵道馆场地 折返类招式直接miss的问题
+<span class="num">3.</span> 修复 <span class="str">&quot;再来一次&quot;</span>招式对攻击技能无效的问题。
+<span class="num">4.</span> 修复 极巨化时的HP错乱的问题。
+<span class="num">5.</span> 修复 拉普拉斯 + 西狮海壬 蛋招式添加 <span class="str">&quot;泡影的咏叹调&quot;</span>
+<span class="num">6.</span> 修复 美录坦 <span class="arrow">&gt;&gt;&gt;</span> 40级进化  美录梅塔
+<span class="num">7.</span> 修复 AI 对于精神场地无法使用先制技能的判断
+
+
+<span class="num">8.</span> 姆克鹰 Lv.55 学蛮力、功夫鼬 Lv.22 学猛撞
+<span class="num">9.</span> 湛蓝市-商店 添加 <span class="str">&quot;飞行宝石&quot;</span>的售卖
+<span class="num">10.</span> 回调 四天王的阵容难度，取消一击必杀的技能配置
+<span class="num">11.</span> 我发现普通难度的BOSS 也有 252努力值
+	- 现已取消，进一步降低剧情模式、普通模式的难度</div>
+</section>
+<section id="sec-21" class="sec">
+<h2>《正式版 1.34-Fix-47》</h2>
+<div class="txt"><span class="num">1.</span> 优化部分:
+	- 幽尾玄鱼-雌性 蛋招式添加<span class="str">&quot;扫墓&quot;</span>
+	- 吉花市水面 破钓竿钓鱼，可钓到<span class="str">&quot;野蛮鲈鱼-白条纹&quot;</span>
+	- 幽尾玄鱼-雌性和 幽尾玄鱼-雄性能正常生蛋
+	- 桔梗市撞树，能撞到<span class="str">&quot;毛球&quot;</span>
+	- 狩猎场--沼泽地可遇到<span class="str">&quot;帕底亚乌波&quot;</span>
+
+	- 铁头功，飞膝踢没命中也不会扣血
+	- 炎武王 隐藏特性调整为<span class="str">&quot;铁头功&quot;</span>
+	- 铁头功、舍身特性，输出增强从 20% <span class="arrow">&gt;&gt;&gt;</span> 35%
+	- 长耳兔可学习 <span class="str">&quot;火焰踢&quot;</span>、<span class="str">&quot;冰冻踢&quot;</span>
+
+	- 快泳蛙新增 各类拳招式的回忆。
+	- M-快泳蛙 新增特性<span class="str">&quot;铁拳断风&quot;</span>: 任何拳类招式，都会连击2次，并且能提1级速。
+	- <span class="str">&quot;亲子爱&quot;</span>特性实装、 <span class="str">&quot;节拍器&quot;</span>适配后时代调整，输出增加 10% <span class="arrow">&gt;&gt;&gt;</span> 20%
+	- 优化 <span class="str">&quot;古剑豹&quot;</span>、<span class="str">&quot;M-暴飞龙&quot;</span>闪光配色
+	- 新增 <span class="str">&quot;愿增猿&quot;</span>、<span class="str">&quot;M-快泳蛙&quot;</span>的贴图      <span class="arrow">&gt;&gt;&gt;</span> 黑咪
+
+<span class="num">3.</span> BUG修复与道具
+	- 修复湛蓝市白哨子的暴风教学错误的BUG
+	- 修复四颚针龙的背面贴图BUG
+	- 玉虹市（百货商店-4F） 添加 宝石海星MEGA石、袋兽MEGA石
+	- 玉虹市（百货商店-5F） 添加 各种进化石的售卖（火、叶、水等）
+
+<span class="num">3.</span> 难度调整:
+	- 四天王增强: 
+	- 希巴添加<span class="str">&quot;真男人场地&quot;</span>
+	- 阿桔添加<span class="str">&quot;毒雾场地&quot;</span>
+	- 渡添加<span class="str">&quot;顺风场地&quot;</span>
+	- AI 智力调整😊</div>
+</section>
+<section id="sec-22" class="sec">
+<h2>《正式版 1.34-Fix-46》</h2>
+<div class="txt"><span class="num">0.</span> 奇迹交换新增<span class="str">&quot;稀有交换&quot;</span>，使用 10个 <span class="str">&quot;金猪&quot;</span> 必定能抽到神兽！
+
+<span class="num">1.</span> 师父鼬调整:  特性: 精神力/再生力/铁头功
+   HP  : <span class="stat">65</span>  + <span class="stat">30</span> = <span class="stat">95</span>
+   攻击 : <span class="stat">125</span> + <span class="stat">15</span> = <span class="stat">140</span>
+   防御 : <span class="stat">60</span>  + <span class="stat">10</span> = <span class="stat">70</span>
+   特攻 : <span class="stat">95</span>  - <span class="stat">45</span> = <span class="stat">50</span>
+   特防 : <span class="stat">60</span>  + <span class="stat">10</span> = <span class="stat">70</span>
+   速度 : <span class="stat">105</span> + <span class="stat">15</span> = <span class="stat">120</span>
+   综合 : <span class="stat">545</span>
+
+   - 修改成 Lv.25进化
+	- 技能池也调整，更早学到好技能。
+	- 新增特性: 铁头功
+	- 铁头功: 少林功夫好！兼具舍身的增伤 与 坚硬脑袋的不吃反伤的效果。
+
+<span class="num">2.</span> 云端派送精灵 加入遭遇地点:
+	捣蛋小妖(R34)、电音婴(R34)、晶光芽(遗迹碎岩) 
+	小卡比兽(R44 湖中草丛)、索罗亚(栎树林)
+	
+<span class="num">3.</span> M-蜈蚣王调整: 属性: 毒 + 钢  
+   HP  : <span class="stat">60</span>    + <span class="stat">30</span> = <span class="stat">90</span>
+   攻击 : <span class="stat">140</span>
+   防御 : <span class="stat">149</span>
+   特攻 : <span class="stat">75</span>		- <span class="stat">50</span> = <span class="stat">25</span>
+   特防 : <span class="stat">99</span>		+ <span class="stat">25</span> = <span class="stat">124</span>
+   速度 : <span class="stat">62</span>    + <span class="stat">25</span> = <span class="stat">87</span>
+   综合 : <span class="stat">615</span>
+
+   - Lv.35 可学习<span class="str">&quot;盘蜷&quot;</span>
+   - 技能池等级优化。
+   - 新增特性: 钢毒外壳 
+   - 同时兼具 硬壳盔甲（不会被命中要害） + 接触者概率中毒 + 铁刺（接触受伤） 的效果</div>
+</section>
+<section id="sec-23" class="sec">
+<h2>《正式版 1.34-Fix-45》</h2>
+<div class="txt"><span class="num">0.</span> 新增技能 <span class="str">&quot;冰晶修复&quot;</span>
+	- 在雪天/始源雪天 下 回复 2/3的HP
+	- 在没有或其他天气型状态时，回复使用者最大ＨＰ的1⁄2
+	- 雪吞虫、雪绒蛾、冰雪龙等可学
+
+<span class="num">1.</span> 冰雪巨龙 调整:  冰皮/降雪  
+   HP  : <span class="stat">123</span>
+   攻击 : <span class="stat">77</span> - <span class="stat">40</span> = <span class="stat">37</span>
+   防御 : <span class="stat">72</span> + <span class="stat">48</span> = <span class="stat">120</span>
+   特攻 : <span class="stat">99</span> + <span class="stat">31</span> = <span class="stat">130</span> 
+   特防 : <span class="stat">92</span>
+   速度 : <span class="stat">58</span> - <span class="stat">14</span> = <span class="stat">44</span>
+   综合 : <span class="stat">546</span>
+
+冰雪龙 Lv.25 级进化冰雪巨龙
+
+技能池也调整，可学习/回忆: 放电、极光幕、流星光束、气象球、<span class="str">&quot;冰晶修复&quot;</span>等
+
+<span class="num">2.</span> 宝石海星可回忆 <span class="str">&quot;屏障猛攻&quot;</span>、<span class="str">&quot;喷射拳&quot;</span>
+<span class="num">3.</span> M-宝石海星调整:  特性:大力士
+	种族:
+   HP  : <span class="stat">60</span>
+   攻击 : <span class="stat">100</span> + <span class="stat">20</span> = <span class="stat">120</span>
+   防御 : <span class="stat">105</span>
+   特攻 : <span class="stat">130</span>
+   特防 : <span class="stat">105</span> - <span class="stat">20</span> = <span class="stat">85</span>
+   速度 : <span class="stat">120</span>
+   综合 : <span class="stat">620</span>
+
+普通宝石海星，攻击: 75 +20 = 95
+<span class="num">4.</span> 若叶镇门口池塘，破钓竿可钓到<span class="str">&quot;海星星&quot;</span>
+<span class="num">5.</span> 修复 M-阿勃梭鲁的防御种族值等问题。</div>
+</section>
+<section id="sec-24" class="sec">
+<h2>《正式版 1.34-Fix-44》</h2>
+<div class="txt"><span class="num">1.</span> <span class="str">&quot;M-阿勃梭鲁石&quot;</span>加入会员商店
+<span class="num">2.</span> <span class="str">&quot;谢米-天空形态&quot;</span>升级技能调整
+<span class="num">3.</span> M-阿勃梭鲁 特性改成: 苍白嘶鸣
+<span class="num">4.</span>	蚊香蛙可回忆<span class="str">&quot;水流裂破&quot;</span>、<span class="str">&quot;吸取拳&quot;</span>
+<span class="num">5.</span> 础石面具、水井面具、火灶面具 加入会员商店3
+<span class="num">6.</span> 修复以一些已知BUG。</div>
+</section>
+<section id="sec-25" class="sec">
+<h2>《正式版 1.34-Fix-43》</h2>
+<div class="txt"><span class="num">1.</span> <span class="str">&quot;时间机器&quot;</span> 支持登录使用
+<span class="num">2.</span> <span class="str">&quot;遭遇查询器&quot;</span> 随机模式下的钓鱼、冲浪显示修复
+<span class="num">3.</span> M-戟脊龙帅气正面图  			  <span class="arrow">&gt;&gt;&gt;</span>   黑咪
+<span class="num">4.</span> <span class="str">&quot;爆音波&quot;</span> 调整，不会打队友。
+<span class="num">5.</span> 新增<span class="str">&quot;避雷针&quot;</span>特性 放首位提高电属性宝可梦的遭遇率
+<span class="num">6.</span> 烟墨市的小瑶，打赢以后也能获取<span class="str">&quot;攀瀑&quot;</span>秘传机。
+<span class="num">7.</span> 巴大蝶 可学习<span class="str">&quot;冥想&quot;</span>
+
+<span class="num">8.</span> M-阿勃梭鲁调整: 恶 + 妖
+	种族:
+   HP  : <span class="stat">65</span>
+   攻击 : <span class="stat">150</span>
+   防御 : <span class="stat">60</span>   + <span class="stat">10</span> = <span class="stat">70</span>
+   特攻 : <span class="stat">115</span>  - <span class="stat">40</span> = <span class="stat">75</span>
+   特防 : <span class="stat">60</span>   + <span class="stat">10</span> = <span class="stat">70</span>
+   速度 : <span class="stat">115</span>  + <span class="stat">20</span> = <span class="stat">135</span>
+   综合 : <span class="stat">550</span>
+添加<span class="str">&quot;嬉闹&quot;</span>的学习面。(LV.28)
+
+<span class="num">8.</span> 修复一些已知BUG。（捕虫大会只有1个人的BUG等）</div>
+</section>
+<section id="sec-26" class="sec">
+<h2>《正式版 1.34-Fix-42》</h2>
+<div class="txt"><span class="num">0.</span> 技能实装: <span class="str">&quot;粉尘&quot;</span>
+<span class="num">1.</span> 修复R46道路 偶尔会卡死的情况
+<span class="num">2.</span> 新增重要道具 <span class="str">&quot;时间机器&quot;</span>，可手动调整 清晨、白天、夜晚，方便抓精灵
+<span class="num">3.</span> 游戏初始下楼时，妈妈会送 <span class="str">&quot;时间机器&quot;</span>
+<span class="num">4.</span> 幽灵道馆场地调整:
+	- 梦魇封锁 玩家无法换人
+	- BOSS的精灵死亡时会触发随机亡语，被降双攻、或者被怨念（PP归零）
+<span class="num">5.</span> 普通系道馆场地调整:
+	- 永久薄雾场地 + 妖精系技能伤害提高 1.5倍
+<span class="num">6.</span> 虫系道馆场地新增: 虫群场地
+	- 虫系粉尘: 在此场地下使用火系技能会失败、并且引发爆炸弄伤自己
+	- 虫群合作:
+		虫群使用攻击技能前会获得 双攻及暴击提升1级。
+		虫群使用变化技能前会获得 双防提升1级以及 HP回复 1/8</div>
+</section>
+<section id="sec-27" class="sec">
+<h2>《正式版 1.34-Fix-41》</h2>
+<div class="txt"><span class="num">1.</span> 技能实装: <span class="str">&quot;燃尽&quot;</span>、<span class="str">&quot;电光双击&quot;</span>、<span class="str">&quot;找伙伴&quot;</span>、
+	- <span class="str">&quot;龙声鼓舞&quot;</span>、<span class="str">&quot;断尾&quot;</span>、<span class="str">&quot;甩肉&quot;</span>
+<span class="num">2.</span> 剧情送精灵的时候，如果身上满了，会直接传到电脑里。
+<span class="num">3.</span> MEGA阿勃梭鲁Z 贴图优化。属性改回: 恶 + 幽灵
+<span class="num">4.</span> <span class="str">&quot;扫墓&quot;</span>添加技能动画
+<span class="num">5.</span> 伽勒尔烈焰马调整:			Lv. 35 学习 大地之力
+属性: 妖精 + 地面    特性: 逃跑、粉彩护幕、暮光闪闪( 薄雾制造者 + 超幸运)
+   HP  : <span class="stat">65</span>
+   攻击 : <span class="stat">100</span>
+   防御 : <span class="stat">70</span>
+   特攻 : <span class="stat">80</span>   + <span class="stat">40</span> = <span class="stat">120</span>
+   特防 : <span class="stat">80</span>
+   速度 : <span class="stat">105</span>
+   综合 : <span class="stat">540</span>
+<span class="num">6.</span> R38 道路添加 <span class="str">&quot;伽勒尔小火马&quot;</span>的遭遇  (Lv.30 进化)
+
+<span class="num">7.</span> 幽灵道馆 BOSS 场地优化:
+	- 梦魇封锁 玩家无法换人
+	- BOSS的精灵死亡时会触发随机亡语，被同命、或者被怨念（PP归零）
+
+<span class="num">7.</span> AI 智力调整😊</div>
+</section>
+<section id="sec-28" class="sec">
+<h2>《测试版 1.34-Fix-40》</h2>
+<div class="txt"><span class="num">1.</span> <span class="str">&quot;颠倒&quot;</span>、<span class="str">&quot;扫墓&quot;</span>技能实装
+<span class="num">2.</span> 扫墓 <span class="str">&quot;幽尾玄鱼&quot;</span> 蛋招式可学
+<span class="num">3.</span> 宝可竞技赛 可以用 大蘑菇 换竞技赛点数 ( NPC莉佳 )
+	R32 夜晚有 睡睡菇 5%概率携带 大蘑菇
+<span class="num">4.</span> 宝可竞技场商店 周日、周一周二等，出售 
+	-超梦进化石Ｘ、Y、
+	-喷火龙进化石X、Y、雷丘进化石X、Ｙ
+	-蒂安希进化石、勾魂眼进化石、长耳兔进化石等</div>
+</section>
+<section id="sec-29" class="sec">
+<h2>《测试版 1.34-Fix-39》</h2>
+<div class="txt"><span class="num">1.</span> 添加苍响、藏玛然特的不同形态的技能教学的适配(扑击、嬉闹)
+<span class="num">2.</span> 沙漠蜻蜓可回忆蝶舞，大针蜂 Lv.40 学直冲钻
+<span class="num">3.</span> 虫系道馆商店 直冲钻教学修复。
+<span class="num">4.</span> 修复常磐森林上下入口的过道限制的问题
+<span class="num">5.</span> 吉花市的洛托姆等级调整为 Lv.16
+<span class="num">6.</span> 🧊六尾 进化方式调整: 冰之石/学会冷冻干燥 都可。
+<span class="num">7.</span> 榛果球 Lv.31 进化，或者 亲密度 220 进化
+<span class="num">8.</span> 南瓜精 多个尺寸的进化方式修复，使用<span class="str">&quot;联系绳&quot;</span>进化
+<span class="num">9.</span> <span class="str">&quot;魔法闪耀&quot;</span>技能机、<span class="str">&quot;洛托姆变身器&quot;</span>、<span class="str">&quot;暴鲤龙进化石&quot;</span>加入会员商店3。
+<span class="num">10.</span> 修复狩猎区结束会卡死的问题。
+<span class="num">11.</span> R30 添加 <span class="str">&quot;无壳海兔&quot;</span>遭遇，有引水特性。
+<span class="num">12.</span> 烧焦塔2F 添加 <span class="str">&quot;阿罗拉臭泥&quot;</span>的遭遇
+<span class="num">13.</span> 挑战难度 二周目等级限制平滑调整。
+<span class="num">14.</span> 修复烟墨市PC中心老头子的定点教学 添加<span class="str">&quot;杂技&quot;</span>教学
+<span class="num">15.</span> M-波士可多拉 特性调整为<span class="str">&quot;持久力&quot;</span>
+<span class="num">16.</span> 桔梗市 大珍珠换BP，添加批量换功能
+<span class="num">17.</span> 姆克鹰 Lv.45 学习 火焰踢，雷丘 可回忆 <span class="str">&quot;电磁炮&quot;</span>
+<span class="num">18.</span> 彷徨夜灵特性调整: 压迫感、察觉、梦魇
+
+一周目BOSS场地 <span class="arrow">&gt;&gt;&gt;</span> 
+
+<span class="num">1.</span> 阿速:   敌方永久顺风
+<span class="num">2.</span> 小松:   白日梦场地: 玩家精灵进入白日梦状态，可以被<span class="str">&quot;食梦&quot;</span><span class="str">&quot;噩梦&quot;</span>影响到
+<span class="num">3.</span> 蜜柑:   钢之意志:钢系宝可梦 受到的特殊伤害降低 1/4,并且每回合回复 1/4最大体力的hp。
+<span class="num">4.</span> 柳伯:   始源雪天  + 己方冰钉
+<span class="num">5.</span> 小椿:   (待定)
+<span class="num">6.</span> 小茜:   迷人场地，精灵直接进入被着迷的状态
+<span class="num">7.</span> 阿笔:   (待定)
+<span class="num">8.</span> 阿四:   真男人场地，无法使用任何变化技能，且双方攻击必中，战斗爽</div>
+</section>
+<section id="sec-30" class="sec">
+<h2>《测试版 1.34-Fix-38》</h2>
+<div class="txt"><span class="num">1.</span> 新增技能:  <span class="str">&quot;旋涡催眠&quot;</span> 
+	如果成功催眠对方，则提升一级攻击力
+	如果催眠失败（无论是没命中还是失败），己方都会扣除 1/4的HP
+	蚊香君 Lv.35 学习
+<span class="num">2.</span> <span class="str">&quot;超幸运&quot;</span>特性的精灵放首位，也能增加野怪携带道具的概率
+<span class="num">3.</span> 闪光色优化: 化石翼龙
+<span class="num">4.</span> 新增 <span class="str">&quot;MEGA沙漠蜻蜓&quot;</span>(测试中) 使用 ZA mega石进化
+   特性: 沙漠掌控  (地面皮肤+沙穴)
+   属性:
+   HP  : <span class="stat">80</span>
+   攻击 : <span class="stat">100</span>  - <span class="stat">30</span> = <span class="stat">70</span>
+   防御 : <span class="stat">80</span>
+   特攻 : <span class="stat">80</span>   + <span class="stat">70</span> = <span class="stat">150</span>
+   特防 : <span class="stat">80</span>   + <span class="stat">30</span> = <span class="stat">110</span>
+   速度 : <span class="stat">100</span>  + <span class="stat">30</span> = <span class="stat">130</span>
+   综合 : <span class="stat">620</span></div>
+</section>
+<section id="sec-31" class="sec">
+<h2>《测试版 1.34-Fix-37》</h2>
+<div class="txt"><span class="num">1.</span> 疾风之翼、变换自如退回到gen8
+<span class="num">2.</span> 修复因为小绿道馆剧情没移植好，导致遗迹最终剧情无法进入的问题
+<span class="num">3.</span> 修复二周目部分新组、常青道馆、玉虹市、R10的剧情。
+<span class="num">4.</span> 新增 <span class="str">&quot;MEGA快泳蛙&quot;</span>(测试中) 使用 ZA mega石进化
+	特性: 优游自如
+	属性:
+	HP  : <span class="stat">90</span>
+	攻击 : <span class="stat">95</span> + <span class="stat">30</span> = <span class="stat">125</span>
+	防御 : <span class="stat">95</span> + <span class="stat">30</span> = <span class="stat">125</span>
+	特攻 : <span class="stat">70</span> 
+	特防 : <span class="stat">90</span> + <span class="stat">20</span> = <span class="stat">110</span>
+	速度 : <span class="stat">70</span> + <span class="stat">20</span> = <span class="stat">90</span>
+	综合 : <span class="stat">610</span>
+<span class="num">5.</span>  <span class="str">&quot;深渊翻滚&quot;</span>不再对自己造成伤害
+<span class="num">6.</span> AI 智力调整😊 <span class="arrow">&gt;&gt;&gt;</span> 增加对各种场地的判断</div>
+</section>
+<section id="sec-32" class="sec">
+<h2>《测试版 1.34-Fix-36》</h2>
+<div class="txt"><span class="num">1.</span> 修复满金地道文字空白的问题
+<span class="num">2.</span> 添加<span class="str">&quot;大针蜂MEGA石&quot;</span>的获取方式
+<span class="num">3.</span> 探宝器 =  遭遇查看器，可以查看当前地图遭遇情况
+	- 并且适配随机模式，抓住以后显示彩色。平时是剪影
+
+<span class="num">4.</span> 二周目 马志士BOSS战环境，免疫毒钉
+<span class="num">5.</span> 随身电脑不再消耗电量，随时使用
+<span class="num">6.</span> 大针蜂进化石 加入会员商店
+<span class="num">7.</span> 燃烧塔添加<span class="str">&quot;呆火驼&quot;</span>的遭遇。1
+<span class="num">7.</span> AI 智力调整😊。</div>
+</section>
+<section id="sec-33" class="sec">
+<h2>《测试版 1.34-Fix-35》</h2>
+<div class="txt"><span class="num">1.</span> 捕虫大会可捕捉新的精灵
+<span class="num">2.</span> 闪光大力鳄 颜色修改
+<span class="num">3.</span> 卡吉镇・土産物屋（老奶奶）添加 <span class="str">&quot;烈咬陆鲨进化石&quot;</span>售卖
+<span class="num">4.</span> 不需要熏香 也能生出幼年宝可梦，利好图鉴收集玩家
+<span class="num">5.</span> AI 智力调整😊。</div>
+</section>
+<section id="sec-34" class="sec">
+<h2>《测试版 1.34-Fix-34》</h2>
+<div class="txt">可窜档
+
+<span class="num">1.</span> 修复 MEGA卢卡里欧 Z 等级不对的问题
+<span class="num">2.</span> 修复 <span class="str">&quot;玩着玩着变休闲难度&quot;</span>的BUG
+<span class="num">3.</span> 修复 满金地道 对话卡死的问题
+<span class="num">4.</span> 修复 桧皮镇PC中心无法回血的BUG
+<span class="num">5.</span> 修复 遗迹部分剧情BUG
+<span class="num">6.</span> 修复 狩猎区只能遇到小拉达的BUG
+
+
+<span class="num">1.</span> 大针蜂 进化可学/回忆 <span class="str">&quot;双针&quot;</span>
+<span class="num">2.</span> 新增亲密度值显示槽
+<span class="num">3.</span> 烟墨市PC 教学老头 添加<span class="str">&quot;岩石暴击&quot;</span>的定点教学
+<span class="num">4.</span> 狩猎区水区新增 <span class="str">&quot;珍珠贝&quot;</span>、<span class="str">&quot;古空棘鱼&quot;</span>( 花田的水面)
+<span class="num">5.</span> <span class="str">&quot;巨剑突击&quot;</span> 添加技能动画
+<span class="num">6.</span> ⭐NPC的换人 AI 增强  (测试中) </div>
+</section>
+<section id="sec-35" class="sec">
+<h2>《测试版 1.34-Fix-33》</h2>
+<div class="txt">新版改动:
+
+<span class="num">1.</span>新增物品 <span class="str">&quot;连锁券PLUS&quot;</span>，可直接对队伍里的精灵使用，直接锁定这只
+	方便刷闪，让孵蛋去他妈。 <span class="arrow">&gt;&gt;&gt;</span> 已加入会员商店
+
+<span class="num">2.</span> -- 魔幻假面猫 + 烈咬陆鲨 +太阳伊布 + 赛富豪 
+   -- 背图、闪光色优化
+	-- MEGA姆克鹰 背图 (24K纯帅)   		<span class="arrow">&gt;&gt;&gt;</span>     黑咪
+	-- MEGA戟脊龙 背图 (24K纯帅)   		<span class="arrow">&gt;&gt;&gt;</span>     黑咪
+
+<span class="num">3.</span> ---挑战模式开局 赠送 <span class="str">&quot;冰空花束💐&quot;</span>  + 所有努力药*99
+	---挑战模式护肝 使用 努力值药剂，吃一个直接增加 252 点。
+	---挑战模式阿速 增强。
+   ---BOSS战 不允许队伍里有相同类型的精灵 + 相同道具
+
+<span class="num">4.</span> ---R31 道路增加 电电虫、胆小虫 ，在不同时间段遇见
+   ---R46 道路增加 萌虻
+   ---R42 道路增加 铁蚁
+
+<span class="num">5.</span> MEGA大针蜂 属性调整: (双针的威力 25 <span class="arrow">&gt;&gt;&gt;</span> 50 )
+		HP    <span class="stat">65</span> <span class="arrow">&gt;&gt;&gt;</span> <span class="stat">90</span>
+		防御   <span class="stat">40</span> <span class="arrow">&gt;&gt;&gt;</span> <span class="stat">80</span>
+		特防   <span class="stat">80</span> <span class="arrow">&gt;&gt;&gt;</span> <span class="stat">120</span>
+	综合: <span class="stat">600</span> 
+
+BUG修复:
+
+<span class="num">0.</span> 华蓝精灵中心电脑旁边新增 女NPC，对话可以让小霞在道馆出现
+
+<span class="num">1.</span> 修复满金市 <span class="str">&quot;疯狂伏特&quot;</span>教学问题
+<span class="num">2.</span> 修复幽灵道馆商店 <span class="str">&quot;增强拳&quot;</span>教学问题
+<span class="num">3.</span> 修复甜甜香气无法遇敌的BUG
+<span class="num">4.</span> 修复浅红市 某个花园跳进去出不来的问题
+<span class="num">5.</span> 修复 彩粉蝶 进化期间复眼消失的问题
+<span class="num">6.</span> 降低<span class="str">&quot;野外双打&quot;</span>的概率。
+<span class="num">7.</span> 大力鳄 Lv.55 学习波动冲</div>
+</section>
+<section id="sec-36" class="sec">
+<h2>《测试版 1.34-Fix-32》</h2>
+<div class="txt"><span class="num">1.</span> 修复化石太多，复活的时候卡住的问题
+<span class="num">2.</span> 修复 神奇守护特性 不生效的问题
+<span class="num">3.</span> 更新 MEGA姆克鹰的背面帅气贴图			-- 黑咪
+<span class="num">4.</span> 修复 部分剧情问题
+<span class="num">5.</span> 修复 二周目火箭队基地进去后黑屏问题
+<span class="num">6.</span> 修复 始源雪天的文本问题
+<span class="num">7.</span> 鬼蝉（脱壳忍者） 优化成 无法获取 HP努力值。
+<span class="num">8.</span> 修复 火箭队基地解决完怪异电波后无法捕捉精灵的问题。
+<span class="num">9.</span> 增强<span class="str">&quot;火之偷取&quot;</span>:
+	-如果对面有道具，我方也有道具（NPC战）直接摧毁对面的道具。 并且触发 心肌梗塞
+
+
+- HOME 拖入存档规则调整为：
+      - 0–3 徽章：最高 20 级，禁止高阶精灵和神兽/幻兽。
+      - 4–7 徽章：最高 35 级，允许高阶精灵，仍禁止神兽/幻兽。
+      - 8 徽章：解除上述限制</div>
+</section>
+<section id="sec-37" class="sec">
+<h2>《测试版 1.34-Fix-31》</h2>
+<div class="txt">可窜档
+
+<span class="num">1.</span> 修复深灰市博物馆 进入黑屏问题(真修复)
+<span class="num">2.</span> 新增 MEGA捷拉奥拉、MEGA乌贼王。(感谢<span class="str">&quot;黑咪&quot;</span>的贴图)
+<span class="num">3.</span> 2个MEGA 道具也放入会员商店。</div>
+</section>
+<section id="sec-38" class="sec">
+<h2>《测试版 1.34-Fix-30》</h2>
+<div class="txt"><span class="num">1.</span> 会员商店添加 <span class="str">&quot;MEGA姆克鹰石&quot;</span>
+<span class="num">2.</span> 白马、蕾冠王-白马 添加 定点教学<span class="str">&quot;冰锥&quot;</span>的学习面</div>
+</section>
+<section id="sec-39" class="sec">
+<h2>《测试版 1.34-Fix-29》</h2>
+<div class="txt"><span class="num">1.</span> 更新大量贴图:
+	-铁斑叶、电肚蛙、纳噬草、怖纳噬草、盐石垒
+	-帕路奇亚、帝牙卢卡 起源形态
+	- 新增MEGA姆克鹰  (感谢<span class="str">&quot;黑咪&quot;</span>等群友提供贴图)
+<span class="num">2.</span> 宝石海星 可回忆<span class="str">&quot;水流裂破&quot;</span>
+<span class="num">3.</span> 修复部分精灵贴图悬浮的问题
+<span class="num">4.</span> 坚果哑铃新增定点学习<span class="str">&quot;寄生种子&quot;</span> (其实它的退化型 种子铁球 能教学)
+<span class="num">5.</span> <span class="str">&quot;突袭&quot;</span>定点教学 添加 朴刀将军 的适配性。</div>
+</section>
+<section id="sec-40" class="sec">
+<h2>《测试版 1.34-Fix-28》</h2>
+<div class="txt"><span class="num">1.</span> 修复桐树林 头锤男教学卡死。
+<span class="num">2.</span> 饲养屋 添加蛋招式教学NPC(需要<span class="str">&quot;天山雪莲&quot;</span>)
+<span class="num">3.</span> 天山雪莲 加入 BP商店(桔梗市小房子-茉莉)</div>
+</section>
+<section id="sec-41" class="sec">
+<h2>《测试版 1.34-Fix-27》</h2>
+<div class="txt"><span class="num">0.</span> 普通地点的碎岩可以获取更多道具（大珍珠、巨大金珠、金猪等）
+<span class="num">1.</span> 阿露福遗迹 的碎岩 新增更多后时代化石
+<span class="num">2.</span> 阿露福遗迹 与R36的通道 新增一个科研人员，可复活化石
+<span class="num">3.</span> 断崖洞窟的碎岩新增更多后时代化石，且概率更高（雷鸟龙、鳃鱼龙等化石）
+<span class="num">4.</span> --鳃鱼龙从龙穴的分布里删除
+<span class="num">5.</span> 满金市<span class="str">&quot;诅咒&quot;</span>技能教学修复</div>
+</section>
+<section id="sec-42" class="sec">
+<h2>《测试版 1.34-Fix-26》</h2>
+<div class="txt"><span class="num">0.</span> 阿速道馆增强， 添加 <span class="str">&quot;敌方永久顺风&quot;</span>场地
+<span class="num">1.</span> 新增技能 <span class="str">&quot;火之偷取&quot;</span>, 火狐狸一家可学
+	- 类似于<span class="str">&quot;渴望&quot;</span>， power = 80 ，命中 100
+	- 成功偷取物品后，敌方会 心肌梗塞 扣除 1/5 HP
+<span class="num">2.</span> 新增 MEGA宝石海星 + MEGA雷丘X/Y
+
+<span class="num">3.</span> 二周目BOSS全体阵容调整，仅限<span class="str">&quot;挑战难度&quot;</span>
+	并且有特殊BOSS场地，增加难度。
+
+	小刚:   永久始源沙暴 + 替换精灵会产生地震
+	小霞:   永久始源之海
+	马志士: 全员飘浮 + 仍吃电气场地
+	莉佳:	 敌方全队拥有<span class="str">&quot;超级日光&quot;</span>效果
+	阿杏:   猛毒迷雾，每回合会中剧毒
+	娜姿:  永久精神场地
+	夏伯:  永久始源大地
+	青绿:  所有精灵直接MEGA，不占道具格
+
+<span class="num">4.</span> 机变骰子、天恩吊坠、牵绊缰绳 加入 BP商店(桔梗市小房子-茉莉)</div>
+</section>
+<section id="sec-43" class="sec">
+<h2>《测试版 1.34-Fix-25》</h2>
+<div class="txt"><span class="num">5.</span> mega暴飞龙闪光配色 优化、漩涡岛优化
+<span class="num">7.</span> 新增 <span class="str">&quot;收获&quot;</span>特性提高草属性宝可梦的遭遇率
+<span class="num">8.</span> 随机派送的精灵平衡调整。（悖论种下线）
+<span class="num">9.</span>  冰道馆难度增强，我方会被植入冰钉 。
+<span class="num">10.</span> 超能天王 永久空间。 （永久的意思就是无法清除、无法覆盖）
+<span class="num">11.</span> HOME 更新: 神兽、高级精灵，只能拖入 8徽章的存档 （防止新档前期直接无敌。）
+<span class="num">12.</span> 波士可多拉进化石 加入会员商店。</div>
+</section>
+<section id="sec-44" class="sec">
+<h2>《测试版 1.34-Fix-24》</h2>
+<div class="txt"><span class="num">1.</span> 修复深灰市博物馆黑屏问题</div>
+</section>
+<section id="sec-45" class="sec">
+<h2>《测试版 1.34-Fix-23》</h2>
+<div class="txt"><span class="num">2.</span> 巴大蝶 可学习<span class="str">&quot;辅助力量&quot;</span>
+<span class="num">3.</span> 文字显示优化。</div>
+</section>
+<section id="sec-46" class="sec">
+<h2>《测试版 1.34-Fix-22》</h2>
+<div class="txt"><span class="num">1.</span> BOSS(馆主)战 不允许队伍里携带相同的道具
+<span class="num">2.</span> 修复反派阵容BUG问题，修复阿速不MEGA的问题
+<span class="num">3.</span> 会员商店添加 卢卡里欧Z MEGA石 ，添加<span class="str">&quot;辅助力量&quot;</span>技能机
+<span class="num">4.</span> 新增引火、引水特性 放置首位，会提高对应属性精灵的遭遇率。
+<span class="num">5.</span> 鬼系道馆右侧小房间，添加NPC，可给精灵随机特性。
+<span class="num">6.</span> Home 新增图鉴系统，可查询 精灵种族值、特性等数据 + 进化链。</div>
+</section>
+<section id="sec-47" class="sec">
+<h2>《测试版 1.34-Fix-21》</h2>
+<div class="txt"><span class="num">1.</span> 优化<span class="str">&quot;随机模式&quot;</span>的遇敌逻辑，方便搜集全图鉴
+	- 水面/钓鱼场景更容易遇见水系精灵
+	- 洞穴、碎岩更容易遇见岩石系精灵
+	- 撞树 更容易遇见虫系/飞行系精灵
+<span class="num">2.</span> 如果选择随机模式，会赠送<span class="str">&quot;稀有道具&quot;</span>
+<span class="num">4.</span> HOME 优化存档无法下载/下载后无法识别的问题
+<span class="num">5.</span> HOME 现在可以正确显示闪光色 与 不同形态的样子。</div>
+</section>
+<section id="sec-48" class="sec">
+<h2>《测试版 1.34-Fix-20》</h2>
+<div class="txt"><span class="num">1.</span> 修复一些进化BUG的问题
+<span class="num">2.</span> 修复精灵贴图 悬浮的问题
+<span class="num">3.</span> 其他BUG修复</div>
+</section>
+<section id="sec-49" class="sec">
+<h2>《测试版 1.34-Fix-19》</h2>
+<div class="txt"><span class="num">1.</span> 修复 <span class="str">&quot;特性胶囊💊&quot;</span> 无法对单一特性的精灵使用的问题
+<span class="num">2.</span> 修复 赠送MEGA石 物品错乱的问题
+<span class="num">3.</span> 新增图鉴登录员，可使队伍里的所有精灵登记到图鉴上。（桔梗学校--黄头发女孩）
+<span class="num">5.</span> 会员商店新增 更多MEGA石。</div>
+</section>
+<section id="sec-50" class="sec">
+<h2>《测试版 1.34-Fix-18》</h2>
+<div class="txt"><span class="num">2.</span> 戟脊龙一家 Lv.30 学冰锥
+<span class="num">3.</span> 满金会员商店增加 拉帝亚斯、拉帝欧斯进化石
+<span class="num">4.</span> 新增古剑豹的正常获取途径（击败柳伯赠送🥚）</div>
+</section>
+<section id="sec-51" class="sec">
+<h2>《测试版 1.34-Fix-17》</h2>
+<div class="txt">// 1. 新增大量 ZA MEGA石  进化使用单独的ZA石
+<span class="num">2.</span> MEGA石 与 Z晶体 分类会放置于<span class="str">&quot;战斗物品&quot;</span>分栏内。
+<span class="num">5.</span> 刺甲贝 Lv.30 学岩石暴击
+<span class="num">6.</span> 满金市<span class="str">&quot;疯狂伏特&quot;</span> 、湛蓝市<span class="str">&quot;暴风&quot;</span> 技能教学修复（但我估计只是适配4代的精灵）
+<span class="num">7.</span> </div>
+</section>
+<section id="sec-52" class="sec">
+<h2>《测试版 1.34-Fix-16》</h2>
+<div class="txt"><span class="num">0.</span> ✅ 金色胶囊💊 回归 （通过<span class="str">&quot;云端派送&quot;</span>获取）
+<span class="num">1.</span> 全开猛撞、闪电猛冲 实装  （叶师傅做了炫酷的技能动画）
+<span class="num">4.</span> 雪妖女 Lv.33 学诡计,酋雷姆 Lv.35 学冰锥
+<span class="num">8.</span> 异色快龙的颜色调整
+<span class="num">9.</span> 新增图鉴 查看/对比形态、与闪光的功能。</div>
+</section>
+<section id="sec-53" class="sec">
+<h2>《测试版 1.34-Fix-15》</h2>
+<div class="txt"><span class="num">1.</span> 更新大量ZA MEGA的贴图
+<span class="num">2.</span> 新增大量ZA MEGA精灵   
+	-MEGA老翁龙    （降雨）
+	-MEGA快龙		 （多重鳞片）
+	-MEGA鳗鱼王    （飘浮）
+	-MEGA卢卡里欧Z （适应力）
+	-MEGA泥偶巨人  （无形拳）
+	-MEGA头巾混混  （威吓）
+	-MEGA雪妖女	  （降雪）
+	-MEGA妖火红狐   （飘浮，火+妖）
+	-MEGA蜈蚣王    （硬壳盔甲）</div>
+</section>
+<section id="sec-54" class="sec">
+<h2>《测试版 1.34-Fix-14》</h2>
+<div class="txt"><span class="num">1.</span> 赤红翎羽 暂时可在室内使用（防止遇到剧情BUG）
+<span class="num">2.</span> 巴大蝶调整：
+	-可回忆<span class="str">&quot;食梦&quot;</span>
+	-虫飞 --&gt; 虫/超
+	-种族值：
+		HP:  <span class="stat">60</span>
+		ATK: <span class="stat">45</span>
+		DEF: <span class="stat">50</span>
+		SPE: <span class="stat">95</span>		⬆️
+		SP.ATK: <span class="stat">120</span> ⬆️
+		SP.DEF: <span class="stat">100</span> ⬆️
+		综合: <span class="stat">470</span></div>
+</section>
+<section id="sec-55" class="sec">
+<h2>《测试版 1.34-Fix-10》</h2>
+<div class="txt"><span class="num">3.</span> 吃吼霸的跟随图修复，叫声修复
+<span class="num">4.</span> 新增技能<span class="str">&quot;烈焰回转&quot;</span> （火返/高温回火）--&gt; 火系即可学
+<span class="num">5.</span> 捡拾池添加 技能机<span class="str">&quot;烈焰回转&quot;</span></div>
+</section>
+<section id="sec-56" class="sec">
+<h2>《测试版 1.34-Fix-09》</h2>
+<div class="txt"><span class="num">3.</span> 猛雷鼓可学<span class="str">&quot;大地之力&quot;</span>，三蜜蜂，蜻蜻蜓和远古巨蜓可学<span class="str">&quot;飞翔&quot;</span>
+<span class="num">4.</span> 劈斧螳螂可学<span class="str">&quot;居合劈&quot;</span></div>
+</section>
+<section id="sec-57" class="sec">
+<h2>《测试版 1.34-Fix-08》</h2>
+<div class="txt"><span class="num">1.</span> ♀爱管侍 添加<span class="str">&quot;戏法空间&quot;</span>学习面
+<span class="num">2.</span> <span class="str">&quot;全开猛撞&quot;</span> 和 <span class="str">&quot;闪电猛冲&quot;</span> 改成50%概率攻击提升一级
+<span class="num">3.</span> 炽焰咆哮虎 可回忆 <span class="str">&quot;拍落&quot;</span>，风妖精、超能艳鸵 可回忆 <span class="str">&quot;接棒&quot;</span>、<span class="str">&quot;再来一次&quot;</span></div>
+</section>
+<section id="sec-58" class="sec">
+<h2>《测试版 1.34-Fix-07》</h2>
+<div class="txt"><span class="num">4.</span> 实装技能<span class="str">&quot;换档&quot;</span>、<span class="str">&quot;V热焰&quot;</span></div>
+</section>
+<section id="sec-59" class="sec">
+<h2>《测试版 1.34-Fix-06》</h2>
+<div class="txt"><span class="num">1.</span> 洗翠大剑鬼 Lv.36 学<span class="str">&quot;圣剑&quot;</span></div>
+</section>
+<section id="sec-60" class="sec">
+<h2>《测试版 1.34-Fix-05》</h2>
+<div class="txt"><span class="num">1.</span> 报恩所有精灵可学习
+<span class="num">2.</span> 钢铠鸦一家可以学<span class="str">&quot;羽栖&quot;</span>
+<span class="num">3.</span> 对战开拓区下方入口修复可进入。
+<span class="num">4.</span> 浅葱市-商店 添加<span class="str">&quot;气象球&quot;</span>技能机售卖</div>
+</section>
+<section id="sec-61" class="sec">
+<h2>《测试版 1.34-Fix-04》</h2>
+<div class="txt"><span class="num">5.</span> 铁荆棘增强：	特性： 夸克充能/静电/电气皮肤
+	HP  : <span class="stat">100</span>
+	物攻 : <span class="stat">169</span> ++
+	防御 : <span class="stat">156</span> ++
+	速度 : <span class="stat">72</span>
+	特攻 : <span class="stat">35</span>  --
+	特防 : <span class="stat">68</span>  --
+	
+	⭐增加更多技能的学习面</div>
+</section>
+<section id="sec-62" class="sec">
+<h2>《测试版 1.34-Fix-03》</h2>
+<div class="txt"><span class="num">4.</span> 缘朱市-商店 能直接购买 联系绳
+<span class="num">5.</span> 满金百货 以前觉醒石换联系绳的NPC换<span class="str">&quot;金猪&quot;</span></div>
+</section>
+<section id="sec-63" class="sec">
+<h2>《测试版 1.34-Fix-02》</h2>
+<div class="txt"><span class="num">2.</span> 实装技能<span class="str">&quot;胜利之舞&quot;</span></div>
+</section>
+<section id="sec-64" class="sec">
+<h2>《测试版 1.34-Fix-01》</h2>
+<div class="txt"><span class="num">4.</span> R46 可遇到 洗翠-狃拉
+<span class="num">5.</span> 满金市过道换哨子的NPC修复</div>
+</section>
+<section id="sec-65" class="sec">
+<h2>《测试版 1.34》</h2>
+<div class="txt"><span class="num">3.</span> 天气说明：
+
+战斗系统天气相关更新：
+战斗结束时，若场上存在天气且剩余回合数大于2，则更新地图天气。
+	<span class="num">1.</span>存在普通雨天或永久雨天时，地图天气更新为下雨/大雨。在下雨时进入战斗可触发5回合的普通雨天
+	<span class="num">2.</span>存在起始之海时，地图天气更新为雷雨。  在雷雨时进入战斗可触发永久雨天(回合数无限，但是可以被更改)
+	<span class="num">3.</span>存在普通晴天或永久晴天时，地图天气更新为彩虹1。在彩虹天气下进入战斗可以触发5回合晴天。
+	<span class="num">4.</span>存在终结大地时。地图天气更新为彩虹2(地图表现暂时和彩虹1一致)。在彩虹2天气下进入战斗可触发永久晴天
+	<span class="num">5.</span>存在沙暴时，地图更新为沙尘。在沙尘天气下进入战斗可触发5回合沙暴。
+	<span class="num">6.</span>存在永久沙暴时，地图更新为沙尘暴。在沙尘天气下进入战斗可触发永久沙暴。(暂时无法通过合法手段触发，因为暂时无法在战斗中设置永久沙暴，可能以后实装)
+	<span class="num">7.</span>存在雪景时，地图天气更新为小雪。在小雪天气下进入战斗可触发5回合雪景。
+	<span class="num">8.</span>存在冰雹时，地图天气更新为中雪。在中雪天气下进入战斗可触发5回合冰雹。
+	<span class="num">10.</span>存在永久冰雹时，地图天气更新为暴风雪。在暴风雪天气下进入战斗可触发永久冰雹。(暂时无法通过合法手段触发，因为暂时无法在战斗中设置永久冰雹，可能以后实装)
+	<span class="num">11.</span>存在浓雾时，地图天气更新为浓雾。在浓雾状态下进入战斗可触发浓雾天气（全场命中降低）。
+
+tips:
+毕力吉翁添加 <span class="str">&quot;种子机关枪&quot;</span>的学习面。降低叶刃、圣剑等技能的学习等级（47级以前）	--呱呱</div>
+</section>
+<section id="sec-66" class="sec">
+<h2>《测试版 1.33》</h2>
+<div class="txt"><span class="num">2.</span> 化石翼龙可定点学习<span class="str">&quot;勇鸟&quot;</span>（吉花市）、与头盖龙孵蛋遗传<span class="str">&quot;双刃头锤&quot;</span>
+<span class="num">3.</span> 二周目剧情移植进度 【▰▰▰▰▰▰▰▰▰▰▰▰▰▰100%】</div>
+</section>
+<section id="sec-67" class="sec">
+<h2>《测试版 1.329.37》</h2>
+<div class="txt"><span class="num">0.</span> 秘传机使用优化                  		--Leaf
+<span class="num">7.</span> 提高对战工厂，连胜以后获取的BP数，最高可获取<span class="str">&quot;11BP&quot;</span>
+<span class="num">8.</span> 二周目剧情移植: 愤怒湖、神都遗迹、白银洞窟、R28、双子岛等。
+	二周剧情进度 【▰▰▰▰▰▰▰▰▰▰▰▰▱90%】</div>
+</section>
+<section id="sec-68" class="sec">
+<h2>《测试版 1.329.36》</h2>
+<div class="txt"><span class="num">2.</span> 二周剧情移植：深灰、浅红、真新镇、R11、R12、R14、R15
+	华蓝市、金黄市、R02、R03、R04、发电厂等。
+	二周剧情进度 【▰▰▰▰▰▰▰▰▰▰▰▱▱80%】</div>
+</section>
+<section id="sec-69" class="sec">
+<h2>《测试版 1.329.34》</h2>
+<div class="txt"><span class="num">1.</span> 更新mega大竺葵 背面贴图					--呱呱
+<span class="num">3.</span> 添加PM列表中，显示道具的功能				--Leaf
+<span class="num">5.</span> 小奶仙 Lv.20 进化霜奶仙
+<span class="num">6.</span> 添加 <span class="str">&quot;mega大力鳄&quot;</span> <span class="str">&quot;mega阿勃梭鲁Z&quot;</span> <span class="str">&quot;mega龙头地鼠&quot;</span>
+
+mega阿勃梭鲁Z 的特性是 <span class="str">&quot;硬爪&quot;</span>。</div>
+</section>
+<section id="sec-70" class="sec">
+<h2>《测试版 1.329.33》</h2>
+<div class="txt"><span class="num">3.</span> 大竺葵添加 <span class="str">&quot;大地之力&quot;</span>、<span class="str">&quot;生长&quot;</span>的技能回忆
+<span class="num">4.</span> 会员商店添加 <span class="str">&quot;恶之挂轴&quot;</span>、<span class="str">&quot;咒术之铠&quot;</span>等进化物品
+<span class="num">6.</span> 向日花怪 lv.26学 <span class="str">&quot;魔法火焰&quot;</span>
+
+二周目剧情移植开始
+<span class="num">2.</span> 船上过完调皮的孙女剧情，老爷爷送<span class="str">&quot;闪耀护符&quot;</span>。</div>
+</section>
+<section id="sec-71" class="sec">
+<h2>《测试版 1.329.32》</h2>
+<div class="txt"><span class="num">1.</span> 添加苍响、藏玛然特的专属技能获取--&gt;改变形态时，铁头会与专属相互转
+<span class="num">5.</span> 新增 盾之王战斗视图，更新剑盾狗、戟脊龙一家，破空焰，古剑豹的跟随图
+<span class="num">8.</span> 炎武王 特性 ==&gt;   <span class="str">&quot;猛火&quot;</span>、<span class="str">&quot;坚硬脑袋&quot;</span>、<span class="str">&quot;舍身&quot;</span>
+<span class="num">9.</span> 桧皮镇-商店 添加<span class="str">&quot;居合斩&quot;</span>的售卖</div>
+</section>
+<section id="sec-72" class="sec">
+<h2>《测试版 1.329.31》补丁版</h2>
+<div class="txt"><span class="num">1.</span> 修复广播塔剧情的BUG（与取名帐篷外的男子对话即可）
+<span class="num">2.</span> 更新<span class="str">&quot;超级日光&quot;</span>对于 生长的加成、火系的加成</div>
+</section>
+<section id="sec-73" class="sec">
+<h2>《测试版 1.329.3》</h2>
+<div class="txt"><span class="num">4.</span> 实装 🐉<span class="str">&quot;龙之皮肤&quot;</span>、🪡<span class="str">&quot;贯穿钻&quot;</span>				--Leaf
+<span class="num">5.</span> 携带道具时，也可偷取野怪的物品♥️</div>
+</section>
+<section id="sec-74" class="sec">
+<h2>《测试版 1.329.2 &quot;4月9日修复版&quot; 》</h2>
+<div class="txt"><span class="num">2.</span> 新增MEGA大竺葵特性<span class="str">&quot;超级日光&quot;</span>				 -Leaf
+	-超级日光：作为<span class="str">“攻击方”</span>使用招式时视为被晴天影响。 
+
+	（天气伤害加成的检查作对象是防守方，只有<span class="str">“在该天气影响下受击”</span>才会受到天气加成伤害。  
+	因此该特性不享受天气伤害加成。  日光束，气象球，晨光等招式效果检查对象是攻击方，
+	因此特性会视为在晴天下释放。详情参考万能伞日文wiki）
+
+<span class="num">2.</span> 冰六/九尾 学极光幕 + 进化方式 （🧊石/ 学会冷冻干燥后）</div>
+</section>
+<section id="sec-75" class="sec">
+<h2>《测试版 1.329.2 》</h2>
+<div class="txt"><span class="num">1.</span> 新增满金市会员商店2，出售物品：
+	- 察觉之镜、生命宝珠、红线、凹凸头盔、突击背心、弱点保险等
+<span class="num">2.</span> 大竺葵MEGA进化使用<span class="str">&quot;大竺葵MEGA石&quot;</span>
+<span class="num">3.</span> 添加道具<span class="str">&quot;ZA进化石&quot;</span>，部分ZA精灵 使用<span class="str">&quot;ZA进化石&quot;</span> MEGA进化 （会员商店2 有售）
+<span class="num">4.</span> 联盟战添加治疗的乔伊小姐
+<span class="num">5.</span> 巨金怪添加<span class="str">&quot;重磅冲撞&quot;</span> 学习面
+<span class="num">7.</span> 飞天螳螂升级可学<span class="str">&quot;暗袭要害&quot;</span>
+<span class="num">8.</span> 烟墨市-商店 添加<span class="str">&quot;鳞射&quot;</span>技能机
+<span class="num">9.</span> 桧皮市-商店 添加<span class="str">&quot;蓄能焰焰&quot;</span>技能机
+<span class="num">12.</span> 缘朱市-商店 添加 <span class="str">&quot;降级糖果&quot;</span>购买渠道 （降级也能触发进化、学技能）
+
+
+<span class="num">14.</span> 新增 <span class="str">&quot;抓住精灵到箱子里，它身上的道具会直接存入背包&quot;</span>的提示。
+<span class="num">15.</span> 新增 <span class="str">&quot;抓住精灵也可以涨经验&quot;</span>功能。</div>
+</section>
+<section id="sec-76" class="sec">
+<h2>《测试版 1.329.1 》</h2>
+<div class="txt"><span class="num">5.</span> 苍响添加嬉闹学习面</div>
+</section>
+<section id="sec-77" class="sec">
+<h2>《测试版 1.329 》</h2>
+<div class="txt"><span class="num">4.</span> 腐朽的剑、腐朽的盾加入会员商店 
+<span class="num">5.</span> 添加高温重压获取方式 缘朱市右侧过道
+<span class="num">6.</span> 新增多个技能机的获取方式 --&gt; 39号道路
+<span class="num">7.</span> 缘朱市-商店新增 <span class="str">&quot;戏法空间&quot;</span>技能机
+
+
+其他. 修复一些小bug</div>
+</section>
+<section id="sec-78" class="sec">
+<h2>《测试版 1.328 》</h2>
+<div class="txt"><span class="num">1.</span> 新增技能动画：
+	-秘剑`千重涛
+	-群魔乱舞
+	-闪焰高歌
+	-淘金潮（Leaf）
+	-水蒸气（Leaf）
+	-鼠数儿（Leaf）
+<span class="num">2.</span> 连锁券优化：
+	- 遭遇野外双打也不会打断连锁，并且两只都是相同的精灵
+	- 提高连锁等级高了以后的闪光概率
+<span class="num">3.</span> 会员商店新增：
+	-巨金怪MEGA石
+	-沙奈朵MEGA石</div>
+</section>
+<section id="sec-79" class="sec">
+<h2>《测试版 1.327 》</h2>
+<div class="txt"><span class="num">1.</span> 九尾 == &gt; 幽灵+火
+<span class="num">2.</span> 漩涡岛盖欧卡剧情修复
+<span class="num">3.</span> 添加基因之楔的获取方式（遗迹处）
+<span class="num">6.</span> 贵重球、妙蛙花MEGA石加入会员商店
+<span class="num">9.</span> 向日花怪调增 （火+草）：
+特性： 叶绿素，太阳之力，早起
+
+HP ：<span class="stat">75</span>    +<span class="stat">25</span> = <span class="stat">100</span>
+攻击：<span class="stat">75</span>
+防御：<span class="stat">55</span>    + <span class="stat">25</span> = <span class="stat">80</span>
+特攻：<span class="stat">105</span>   +<span class="stat">25</span> = <span class="stat">130</span>
+特防：<span class="stat">85</span>
+速度：<span class="stat">30</span>
+
+综合：<span class="stat">425</span> + <span class="stat">75</span> = <span class="stat">500</span>
+
+<span class="num">10.</span> 其他小细节</div>
+</section>
+<section id="sec-80" class="sec">
+<h2>《测试版 1.325 》</h2>
+<div class="txt"><span class="num">4.</span> 对战开拓区只能从桔梗市的黑魔传送进出
+<span class="num">5.</span> 满金市正辉家的NPC可以获取代币盒+伊布
+<span class="num">6.</span> 满金市1F会员商店卖一些特殊道具（泥炭块+梦境球等）
+<span class="num">7.</span> 满金市1F最右侧的老妈子可以<span class="str">&quot;觉醒石&quot;</span>换<span class="str">&quot;联系绳&quot;</span>(替代通讯进化的道具)
+
+新增鬼尾立，大尾立使用暗之石进化
+鬼尾立：逃跑、察觉、诅咒之躯
+HP  	<span class="stat">80</span>
+ATK. 	<span class="stat">125</span>
+DEF 	<span class="stat">85</span>
+SP_ATK <span class="stat">47</span>
+SP_DEF <span class="stat">80</span>
+SPE.	 <span class="stat">80</span>
+
+<span class="num">6.</span> ✅新增 <span class="str">&quot;固定化随机模式&quot;</span>    每次重开都是不一样的体验。
+
+	- 每块草丛可以遇见固定的随机后的精灵
+	- 每次开新的存档，草丛遇到的固定精灵会不一样
+	- 遇到的精灵强度会随着徽章的数量而增长，非常平滑。
+	- 你能遇见平时无法获取的精灵。</div>
+</section>
+<section id="sec-81" class="sec">
+<h2>《测试版 1.32 》</h2>
+<div class="txt"><span class="num">5.</span> 火球鼠lv.14学	火焰轮  lv.19学烈焰溅射
+<span class="num">6.</span> 开局送喵喵</div>
+</section>
+<section id="sec-82" class="sec">
+<h2>《测试版 1.315 》</h2>
+<div class="txt"><span class="num">1.</span> 实装<span class="str">&quot;愤怒之拳&quot;</span>+代码优化				--leaf
+<span class="num">2.</span> 精灵球可在背包使用，更换球种		--leaf
+<span class="num">3.</span> 修复各种系统bug						--leaf
+
+<span class="num">4.</span> 剧情移植到联盟（1周目）				--呱呱
+<span class="num">5.</span> 一些训练师的阵容技能错位的修复		--呱呱
+<span class="num">6.</span> 剧情流程的整体优化					--呱呱</div>
+</section>
+<section id="sec-83" class="sec">
+<h2>《测试版 1.30 》</h2>
+<div class="txt"><span class="num">1.</span> NPC全部移植！
+<span class="num">2.</span> 剧情移植到湛蓝市
+<span class="num">3.</span> 龙穴地面可遭遇龙系精灵
+<span class="num">4.</span> 剧情上的其他各种小优化</div>
+</section>
+<section id="sec-84" class="sec">
+<h2>《测试版 1.29 》</h2>
+<div class="txt">优化：
+<span class="num">1.</span> R37 可遇见岩狗狗
+<span class="num">2.</span> 道之三龙可遭遇
+<span class="num">3.</span> 其他小bug</div>
+</section>
+<section id="sec-85" class="sec">
+<h2>《测试版 1.27 》</h2>
+<div class="txt">系统底层相关
+<span class="num">1.</span> [✅️]技能实装:<span class="str">&quot;辅助力量&quot;</span>、<span class="str">&quot;嚣张&quot;</span>、<span class="str">&quot;击落&quot;</span>、<span class="str">&quot;意念移物&quot;</span>等 	--leaf
+<span class="num">2.</span> [✅️]御三家、生蛋BUG修复			  								--leaf
+<span class="num">3.</span> [✅️]新增很多技能动画:<span class="str">&quot;三旋击&quot;</span>、<span class="str">&quot;薄雾炸裂&quot;</span>等 				--leaf
+<span class="num">4.</span> [✅️]奇迹交换形态bug修复											--leaf
+<span class="num">5.</span> [✅️]修复愤怒粉动画卡死											--leaf
+<span class="num">6.</span> [✅️]拼音输入法优化												--leaf
+<span class="num">7.</span> [✅️]新增PM能力值界面新增种族显示								--leaf
+
+
+绝对心金剧情移植进度：	   🧊系道馆	                  --咩咩子+呱呱
+【▰▰▰▰▰▰▰▰▰▱▱▱▱▱▱50%】
+
+其他修改：
+
+精灵优化相关											 --呱呱
+<span class="num">1.</span> 大竺葵36级学月爆							
+<span class="num">2.</span> 剧情优化
+<span class="num">3.</span> 鬃岩狼人-黑夜 调整：
+特性： 锐利目光、无防守、自信过度
+HP  	<span class="stat">85</span>
+ATK 	<span class="stat">115</span>
+DEF 	<span class="stat">75</span>
+SP.ATK	<span class="stat">55</span>	- <span class="stat">30</span> = <span class="stat">25</span>
+SP.DEF	<span class="stat">75</span>
+SPE		<span class="stat">82</span>  + <span class="stat">30</span> = <span class="stat">112</span>
+
+升级可学爆裂拳
+</div>
+<hr class="divider">
+</section>
+<section id="sec-86" class="sec">
+<h2>《测试版 1.26 》</h2>
+<div class="txt"><span class="num">1.</span> 挑战模式的练级乔伊阵容修复
+<span class="num">2.</span> 新增巨声，扑击的定点教学
+<span class="num">3.</span> 小火焰猴一家新增<span class="str">&quot;吸取拳&quot;</span>学习面
+<span class="num">4.</span> 艾路雷朵可回忆<span class="str">&quot;圣剑&quot;</span>
+<span class="num">5.</span> 新增<span class="str">&quot;灵骚&quot;</span>定点教学
+<span class="num">6.</span> 新增<span class="str">&quot;巨声&quot;</span>定点教学
+<span class="num">7.</span> 捡拾表里添加<span class="str">&quot;PP提升&quot;</span>
+<span class="num">9.</span> 所有精灵都可学<span class="str">&quot;点到为止&quot;</span></div>
+</section>
+<section id="sec-87" class="sec">
+<h2>《测试版 1.25 》</h2>
+<div class="txt"><span class="num">1.</span> 大幅提高野怪等级。
+<span class="num">2.</span> 休闲模式的全体经验获取量提升至75%
+<span class="num">3.</span> 普通模式的全体经验获取量调整为60%
+<span class="num">4.</span> 挑战模式的全体经验获取量调整为50%
+<span class="num">5.</span> 桔梗市精灵中心添加<span class="str">&quot;练级的乔伊&quot;</span>，动态等级</div>
+</section>
+<section id="sec-88" class="sec">
+<h2>《测试版 1.22 》</h2>
+<div class="txt">1
+<span class="num">1.</span> [✅️]技能实装<span class="str">&quot;跺脚&quot;</span>、<span class="str">&quot;冰旋&quot;</span>、<span class="str">&quot;铁滚轮&quot;</span>		--Leaf
+<span class="num">2.</span> [✅️]道具实装<span class="str">&quot;标靶&quot;</span>、<span class="str">&quot;客房服务&quot;</span>			--Leaf
+<span class="num">3.</span> [✅️]NPC动画细节以及战斗立绘				--Leaf
+<span class="num">4.</span> [✅️]添加大量OW以及立绘					--Leaf
+<span class="num">5.</span> [✅️]技能实装<span class="str">&quot;鳃咬&quot;</span>、<span class="str">&quot;电喙&quot;</span>				--Leaf
+<span class="num">6.</span> [✅️]百变伊布实装							--Leaf
+<span class="num">7.</span> [✅️]基因之楔、奈克洛兹玛合体器实装		--Leaf
+
+<span class="num">8.</span> [✅️]新增练努力值NPC						--呱呱
+<span class="num">9.</span> [✅️]修复melonds、激烈等模拟器的兼容   --泡泡</div>
+</section>
+<section id="sec-89" class="sec">
+<h2>《测试版 1.21 》</h2>
+<div class="txt"><span class="num">0.</span> 简单模式下，首位精灵自带<span class="str">&quot;捡拾&quot;</span>功能。	--呱呱
+
+<span class="num">1.</span> [✅️]修复孵蛋卡住的BUG 				--Leaf
+<span class="num">2.</span> [✅️]修复先制之爪的BUG					--Leaf
+<span class="num">3.</span> [✅️]优化图鉴的形态显示					--Leaf
+<span class="num">4.</span> [✅️]修复察觉眼镜与特性冲突的BUG 	--Leaf
+
+<span class="num">5.</span> 新增<span class="str">&quot;甜舞妮&quot;</span>的贴图						--呱呱
+<span class="num">6.</span> 新增<span class="str">&quot;沙铁皮&quot;</span>的贴图						--呱呱
+<span class="num">7.</span> 新增<span class="str">&quot;铁头壳&quot;</span>的贴图						--呱呱
+<span class="num">8.</span> 新增<span class="str">&quot;铁磐岩&quot;</span>的贴图						--呱呱
+<span class="num">9.</span> 修复<span class="str">&quot;甜竹竹&quot;</span>的贴图						--呱呱
+<span class="num">10.</span> 修复<span class="str">&quot;洗翠冰岩怪&quot;</span>的贴图				--呱呱</div>
+</section>
+<section id="sec-90" class="sec">
+<h2>《测试版 1.20 》</h2>
+<div class="txt"><span class="num">0.</span> 遭遇与图鉴系统强关联，可用图鉴查询分布情况(修复！！)
+   获取图鉴时，可选择启用<span class="str">&quot;全图鉴已见过&quot;</span>
+<span class="num">2.</span> 捡拾调整:
+	-取消薄荷、果子的捡拾，这些物品放入商店等其他获取途径
+	-现在可捡到<span class="str">&quot;金猪&quot;</span>，低概率。
+<span class="num">4.</span> 新增龙之舞技能机的获取方式
+
+<span class="num">5.</span> 修复在箱子中存取道具会导致PM形态异常变化的情况 --Leaf
+<span class="num">6.</span> 修复踩影BUG								  --Leaf
+<span class="num">7.</span> 新增彩粉蝶进化时生成不同花纹的逻辑。			  --Leaf
+<span class="num">8.</span> 新增土龙节节，一家鼠的特殊形态进化方式。		  --Leaf</div>
+</section>
+<section id="sec-91" class="sec">
+<h2>《测试版 1.19 》</h2>
+<div class="txt"><span class="num">1.</span> 100级也可获取努力值
+<span class="num">3.</span> 四灾特性有入场效果提示
+<span class="num">4.</span> 实装银伴战兽的属性变化
+<span class="num">5.</span> 堵拦熊调整:特性<span class="str">&quot;捡拾、毅力、不服输&quot;</span>,以适配进化后继续捡拾。
+<span class="num">7.</span> 新增大竺葵MEGA，暂时用<span class="str">&quot;蒂安希进化石&quot;</span>。
+<span class="num">8.</span> 新增<span class="str">&quot;察觉之镜&quot;</span>物品，携带可以察觉对方的道具
+<span class="num">9.</span> 努力值相关道具放入桔梗市商店右侧小偷。
+<span class="num">10.</span> 新增练攻击努力的NPC。（桔梗市）
+<span class="num">11.</span> 新增其他小细节
+
+	--新增NPC Mr.秦，出门即可送你5888金币</div>
+</section>
+<section id="sec-92" class="sec">
+<h2>《测试版 1.18 》</h2>
+<div class="txt"><span class="num">1.</span> 道馆馆主 实行<span class="str">&quot;动态等级&quot;</span>
+提前打某个道馆，他的精灵等级不是固定的。
+而是根据你所持有的徽章数量而决定。
+
+<span class="num">2.</span> 更新标题LOGO +一些道具ICON + 各种小细节
+<span class="num">3.</span> 实装 一次性宝石的效果（飞行宝石等）
+<span class="num">4.</span> 修复薄荷修正后的性格，在电脑中显示不正常的问题
+<span class="num">5.</span> 长嚎更新成后时代效果（我方群体攻击+1）
+<span class="num">6.</span> 吉花市商店新增<span class="str">&quot;小偷技能机&quot;</span>，新增宝石、连锁券的获取方式
+<span class="num">7.</span> 大尾立调整:特性：<span class="str">&quot;逃跑、察觉、适应力&quot;</span> 种族：
+HP      <span class="stat">85</span>
+ATK     <span class="stat">76</span>  + <span class="stat">24</span> = <span class="stat">100</span>
+DEF     <span class="stat">64</span>  + <span class="stat">16</span> = <span class="stat">80</span>
+SPE     <span class="stat">90</span>  + <span class="stat">22</span> = <span class="stat">112</span>
+SPATK   <span class="stat">45</span>
+SPDEF   <span class="stat">55</span>  + <span class="stat">25</span> = <span class="stat">80</span> 
+<span class="str">&quot;综合&quot;</span>
+= <span class="stat">415</span> + <span class="stat">87</span> = <span class="stat">502</span>
+
+<span class="num">8.</span> 月石调整: 防御 65 + 55 = 120  综合：515
+<span class="num">9.</span> 太阳岩 :  特防 65 + 55 = 120  综合：515</div>
+</section>
+<section id="sec-93" class="sec">
+<h2>《测试版 1.17 》</h2>
+<div class="txt"><span class="num">0.</span> 等级限制 重新设计
+
+<span class="num">2.</span> 替换（新增）多个技能机：
+&quot;再来一次、泰山压顶、热水、泼冷水、掷泥、伏特替换、
+金属爪、吸取之吻、拍落、诡计、指导、高温重压、起草&quot;
+<span class="num">3.</span> <span class="str">&quot;燕返&quot;</span>技能机适配后时代精灵（小箭雀）
+<span class="num">4.</span> <span class="str">&quot;羽栖&quot;</span>技能机适配后时代精灵</div>
+</section>
+<section id="sec-94" class="sec">
+<h2>《测试版 1.16 》</h2>
+<div class="txt"><span class="num">0.</span> 前期即可购买<span class="str">&quot;精灵球&quot;</span>
+<span class="num">2.</span> 长耳兔调整，特性：<span class="str">&quot;逃跑、柔软、胆量&quot;</span>，种族：物攻 76+45 = 121 速度:105+15=120 综合：525
+<span class="num">3.</span> 狃拉调整,特性：<span class="str">&quot;精神力、顺手牵羊、技术高手&quot;</span>
+<span class="num">4.</span> 铁荆棘调整，种族：84+30 = 114 综合：600
+<span class="num">5.</span> 采蜜成功也有文字提示。
+<span class="num">6.</span> 修复捡拾有提示但没捡到的问题。</div>
+</section>
+<section id="sec-95" class="sec">
+<h2>《测试版 1.14 》</h2>
+<div class="txt">下面是精灵数据调整：
+
+<span class="num">1.</span> 木守宫一家特性：茂盛、锋锐、再生力（Lv.6学龙之怒）
+<span class="num">2.</span> mega蜥蜴王：避雷针、锋锐、再生力
+<span class="num">3.</span> 蜥蜴王种族值物特对调：物攻145，特攻110（进化学龙之舞、铁尾）
+
+复刻绝对心金部分精灵数据：
+
+电击魔兽 防御特攻对调：物防：67 ==&gt; 95 特攻：95 ==&gt; 67
+铁螯龙虾 特性：怪力钳、硬壳盔甲、适应力，HP:  63 ==&gt; 83 特攻：90 ==&gt; 70
+MEGA艾路雷朵 特性 精神力 ==&gt; 锋锐
+电灯怪  特性：蓄电、发光、蓄水 物防：58 +10 = 68 特攻：86 +10 = 96 综合：500
+凯罗斯调整：HP:   65 +15 = 80 特攻： 55 -15 = 40 综合：500
+烈箭鹰 物攻：81 +26 ==&gt; 107  综合：525
+帕奇利兹 回忆学<span class="str">&quot;看我嘛&quot;</span> 
+妖火红狐一家： 属性：火/妖  调整：物攻：69 - 15  = 54 特攻：114 + 15  =  129
+坦克臭鼬调整：物防：67+ 23 = 90 特防：61 + 20 = 81 综合：528
+君主蛇 属性：草/龙  可学龙星群（Lv.48）
+喵喵进化成猫老大还是捡拾特性
+致命针刺伤害 50 ==&gt; 65
+彩粉蝶调整：特攻：90 ==&gt; 100特防：50 ==&gt; 70 总和:441
+东施喵调整：物攻：86 + 24 = 120特攻：64 -4 = 60 物防：64+30=94 总和：516
+奇诺栗鼠：物攻：95 + 20 = 115总和：490
+MEGA烈咬陆鲨种族值调整  速度： 92  + 20 = 112 特攻： 120 - 20 = 100</div>
+</section>
+<section id="sec-96" class="sec">
+<h2>《测试版 1.13 》</h2>
+<div class="txt"><span class="num">6.</span> 特性<span class="str">“熔岩铠甲”</span>增强：特殊防御翻倍
+<span class="num">7.</span> 梦境球捕获必定获取梦特（睡眠状态下捕获率大幅提高）
+<span class="num">8.</span> 居合斩变成 钢系，威力变成60，并且容易命中要害(吃锋锐加成)
+<span class="num">9.</span> 菊草叶特性：  茂盛、厚脂肪、叶绿素</div>
+</section>
+  </main>
+</div>
+<script>
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc-link'));
+  var sections = Array.prototype.slice.call(document.querySelectorAll('section.sec'));
+
+  function fixOffsets() {
+    var h = document.querySelector('header.top').offsetHeight;
+    document.documentElement.style.setProperty('--top', h + 'px');
+    document.documentElement.style.setProperty('--hdr', (h + 14) + 'px');
+  }
+  window.addEventListener('resize', fixOffsets);
+  fixOffsets();
+
+  var tocToggle = document.getElementById('tocToggle');
+  var tocPanel = document.getElementById('tocPanel');
+  function isMobile() { return window.matchMedia('(max-width: 820px)').matches; }
+  tocToggle.addEventListener('click', function () {
+    tocPanel.classList.toggle('open');
+    tocToggle.classList.toggle('open');
+  });
+
+  var toTop = document.getElementById('toTop');
+  window.addEventListener('scroll', function () {
+    toTop.classList.toggle('show', window.scrollY > 400);
+  });
+
+  var search = document.getElementById('search');
+  search.addEventListener('input', function () {
+    var q = search.value.trim().toLowerCase();
+    links.forEach(function (a, i) {
+      var sec = sections[i];
+      var text = sec.textContent.toLowerCase();
+      var hit = !q || text.indexOf(q) !== -1 || a.textContent.toLowerCase().indexOf(q) !== -1;
+      a.classList.toggle('hidden', !hit);
+      sec.style.display = hit ? '' : 'none';
+    });
+  });
+
+  links.forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      if (!isMobile()) return;
+      tocPanel.classList.remove('open');
+      tocToggle.classList.remove('open');
+      var id = a.getAttribute('href').slice(1);
+      var el = document.getElementById(id);
+      if (!el) return;
+      e.preventDefault();
+      requestAnimationFrame(function () {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  });
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        var id = e.target.id;
+        links.forEach(function (a) {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-10% 0px -80% 0px', threshold: 0 });
+  sections.forEach(function (s) { observer.observe(s); });
+</script>
+<a class="to-top" id="toTop" href="#top" aria-label="回到顶部">↑</a>
+</body>
+</html>
